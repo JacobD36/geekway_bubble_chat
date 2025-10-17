@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empresa Demo - Sitio Web del Cliente</title>
+
+    <!-- Estilos del sitio web del cliente -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .feature-card p {
+            color: #5a6c7d;
+            line-height: 1.7;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 20px 0;
+        }
+
+        .demo-notice {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .widget-info {
+            background: #27ae60;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 1: CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@43cb379/dist/widget/geekway-chat-widget.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 TechCorp Solutions</h1>
+            <p class="subtitle">Innovación y tecnología para tu negocio</p>
+        </header>
+
+        <div class="demo-notice">
+            🎯 SITIO WEB DE DEMOSTRACIÓN - Widget GeekWay Chat integrado
+        </div>
+
+        <div class="widget-info">
+            ✅ Widget de Chat Activado - Mira el botón circular en la esquina inferior derecha
+        </div>
+
+        <div class="content">
+            <h2>Bienvenido a TechCorp Solutions</h2>
+            <p>Somos una empresa líder en soluciones tecnológicas, comprometida con la innovación y la excelencia en el servicio al cliente. Nuestro equipo de expertos está aquí para ayudarte a llevar tu negocio al siguiente nivel.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🔧 Desarrollo de Software</h3>
+                    <p>Creamos aplicaciones web y móviles personalizadas que se adaptan perfectamente a las necesidades de tu negocio.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>☁️ Soluciones en la Nube</h3>
+                    <p>Migramos tu infraestructura a la nube para mayor escalabilidad, seguridad y eficiencia operacional.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🤖 Inteligencia Artificial</h3>
+                    <p>Implementamos soluciones de IA para automatizar procesos y mejorar la toma de decisiones en tu empresa.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🔒 Ciberseguridad</h3>
+                    <p>Protegemos tu negocio con las mejores prácticas de seguridad y sistemas de monitoreo avanzados.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📊 Analytics & BI</h3>
+                    <p>Transformamos tus datos en insights valiosos para impulsar el crecimiento de tu negocio.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎨 UX/UI Design</h3>
+                    <p>Diseñamos experiencias de usuario excepcionales que conectan con tus clientes.</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>¿Listo para transformar tu negocio?</h2>
+                <p>Contacta con nuestro equipo de expertos y descubre cómo podemos ayudarte</p>
+                <a href="#" class="cta-button">Solicitar Consulta Gratuita</a>
+            </div>
+
+            <h2>¿Por qué elegir TechCorp?</h2>
+            <p>Con más de 10 años de experiencia en el mercado, hemos ayudado a cientos de empresas a digitalizar sus procesos y alcanzar sus objetivos de crecimiento. Nuestro enfoque se basa en:</p>
+
+            <ul style="margin: 20px 0; padding-left: 30px;">
+                <li><strong>Innovación constante:</strong> Utilizamos las últimas tecnologías</li>
+                <li><strong>Soporte 24/7:</strong> Estamos aquí cuando nos necesites</li>
+                <li><strong>Soluciones escalables:</strong> Crecemos contigo</li>
+                <li><strong>Equipo experto:</strong> Profesionales certificados</li>
+            </ul>
+
+            <h2>Nuestros Clientes</h2>
+            <p>Trabajamos con empresas de todos los tamaños, desde startups hasta corporaciones multinacionales. Algunos de nuestros clientes satisfechos incluyen empresas del sector financiero, retail, salud, educación y manufactura.</p>
+
+            <p style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                <strong>💬 ¿Tienes preguntas?</strong><br>
+                Nuestro equipo de soporte está listo para ayudarte. Haz clic en el botón de chat para hablar con uno de nuestros especialistas.
+            </p>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 TechCorp Solutions. Todos los derechos reservados.</p>
+            <p>Sitio web de demostración para mostrar la integración del Widget GeekWay Chat</p>
+        </footer>
+    </div>
+
+    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 2: JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@43cb379/dist/widget/geekway-chat-widget.min.js"></script>
+
+    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 3: INICIALIZACIÓN -->
+    <script>
+        // Esperar a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar el widget GeekWay Chat
+            GeekWayChat.init({
+                apiKey: 'demo-api-key-techcorp-2025',
+                theme: 'purple',
+                position: 'bottom-right',
+                welcomeMessage: '¡Hola! Soy el asistente virtual de TechCorp. ¿En qué puedo ayudarte hoy? 😊'
+            });
+
+            console.log('✅ Widget GeekWay Chat inicializado correctamente');
+        });
+
+        // Función para simular diferentes configuraciones del widget
+        function cambiarConfiguracion(config) {
+            console.log('Cambiando configuración del widget:', config);
+            // Aquí podrías implementar lógica para cambiar la configuración dinámicamente
+        }
+    </script>
+</body>
+</html>

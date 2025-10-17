@@ -1,39 +1,82 @@
-# GeekWay Chat Widget
+# 🎯 GeekWay Chat Widget
 
-## Instalación
+Widget de chat embebible para sitios web, construido con Angular Elements.
 
-### Opción 1: CDN
+## 🚀 Instalación vía CDN
+
+### JavaScript + CSS
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tuusuario/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tuusuario/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.css">
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@latest/dist/widget/geekway-chat-widget.min.css">
 
-<!-- En el body -->
-<geekway-chat-widget
-  api-key="tu-api-key"
-  theme="purple"
-  position="bottom-right">
-</geekway-chat-widget>
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@latest/dist/widget/geekway-chat-widget.min.js"></script>
 ```
 
-### Opción 2: JavaScript Initialization
+## 🔧 Inicialización
+
+### Método recomendado (JavaScript API)
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tuusuario/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.js"></script>
 <script>
-  GeekWayChat.init({
-    apiKey: 'tu-api-key',
-    theme: 'purple',
-    position: 'bottom-right',
-    welcomeMessage: '¡Hola! ¿Cómo puedo ayudarte?'
-  });
+document.addEventListener('DOMContentLoaded', function() {
+    GeekWayChat.init({
+        apiKey: 'tu-api-key',
+        theme: 'purple',                    // 'purple' | 'blue'
+        position: 'bottom-right',           // 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
+        welcomeMessage: 'Tu mensaje'        // Mensaje personalizado
+    });
+});
 </script>
 ```
 
-## Configuración
+### Método alternativo (Custom Element)
+```html
+<geekway-chat-widget
+    api-key="tu-api-key"
+    theme="purple"
+    position="bottom-right"
+    welcome-message="¡Hola! ¿En qué puedo ayudarte?">
+</geekway-chat-widget>
+```
 
-| Atributo | Valores | Descripción |
-|----------|---------|-------------|
-| api-key | string | Tu clave API de GeekWay |
-| theme | purple/blue/green | Color del widget |
-| position | bottom-right/bottom-left | Posición del botón |
-| welcome-message | string | Mensaje inicial del bot |
+## ⚙️ Configuración
 
+| Opción | Tipo | Valores | Por Defecto | Descripción |
+|--------|------|---------|-------------|-------------|
+| `apiKey` | string | - | - | Tu clave API única |
+| `theme` | string | `'purple'` \| `'blue'` | `'purple'` | Tema de colores |
+| `position` | string | `'bottom-right'` \| `'bottom-left'` \| `'top-right'` \| `'top-left'` | `'bottom-right'` | Posición del botón |
+| `welcomeMessage` | string | - | `'¡Hola! ¿En qué puedo ayudarte?'` | Mensaje inicial |
+
+## 🎨 Temas Disponibles
+
+- **Purple** (por defecto): Tema principal de GeekWay
+- **Blue**: Tema azul alternativo
+
+## 📱 Compatibilidad
+
+- ✅ Chrome 80+
+- ✅ Firefox 75+
+- ✅ Safari 13+
+- ✅ Edge 80+
+- ✅ Dispositivos móviles
+
+## 🔧 Métodos de la API
+
+```javascript
+// Inicializar widget
+GeekWayChat.init(config);
+
+// Mostrar widget
+GeekWayChat.show();
+
+// Ocultar widget
+GeekWayChat.hide();
+
+// Destruir widget
+GeekWayChat.destroy();
+```
+
+---
+
+🎯 **Creado por GeekWay** - Soluciones tecnológicas innovadoras

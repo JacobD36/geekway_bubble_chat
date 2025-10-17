@@ -5,6 +5,9 @@ import { createCustomElement } from '@angular/elements';
 import { ChatBubbleComponent } from './app/chat-bubble.component';
 import { createApplication } from '@angular/platform-browser';
 
+// Importar la API del widget
+import './widget-api';
+
 // Para desarrollo local
 bootstrapApplication(App, appConfig)
   .catch((err) => console.error(err));
@@ -20,21 +23,5 @@ createApplication(appConfig).then(appRef => {
     customElements.define('geekway-chat-widget', chatElement);
   }
 
-  // Hacer disponible globalmente para uso directo
-  (window as any).GeekWayChat = {
-    init: (config: any = {}) => {
-      const widget = document.createElement('geekway-chat-widget');
-
-      // Configurar propiedades
-      if (config.apiKey) widget.setAttribute('api-key', config.apiKey);
-      if (config.theme) widget.setAttribute('theme', config.theme);
-      if (config.position) widget.setAttribute('position', config.position);
-      if (config.welcomeMessage) widget.setAttribute('welcome-message', config.welcomeMessage);
-
-      // Agregar al DOM
-      document.body.appendChild(widget);
-
-      return widget;
-    }
-  };
-});
+  console.log('🚀 GeekWay Chat Widget ready for CDN distribution!');
+}).catch(err => console.error('Error initializing widget:', err));

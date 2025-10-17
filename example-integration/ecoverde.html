@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoVerde - Consultoría Ambiental</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2d5016;
+            background: linear-gradient(135deg, #a8e6cf 0%, #56ab2f 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #2d5016;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #56ab2f;
+            font-size: 1.3em;
+            font-weight: 300;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #f7fff7 0%, #e8f5e8 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #a8e6cf;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card h3 {
+            color: #2d5016;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .service-card p {
+            color: #4a7c59;
+            line-height: 1.6;
+        }
+
+        .eco-stats {
+            background: linear-gradient(45deg, #56ab2f, #a8e6cf);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .demo-config {
+            background: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 25px;
+            }
+        }
+    </style>
+
+    <!-- Widget GeekWay Chat - CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@43cb379/dist/widget/geekway-chat-widget.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🌱</div>
+            <h1>EcoVerde Consultoría</h1>
+            <p class="subtitle">Soluciones ambientales sostenibles para tu empresa</p>
+        </header>
+
+        <div class="demo-config">
+            🔧 DEMO: Widget configurado con tema azul y posición izquierda
+        </div>
+
+        <div class="content">
+            <h2>🌍 Comprometidos con el Medio Ambiente</h2>
+            <p>En EcoVerde, nos especializamos en ayudar a las empresas a implementar prácticas sostenibles que beneficien tanto al medio ambiente como a su rentabilidad. Nuestro equipo de expertos en sostenibilidad está aquí para guiarte en cada paso hacia un futuro más verde.</p>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>🔍 Auditorías Ambientales</h3>
+                    <p>Evaluamos el impacto ambiental de tu empresa y identificamos oportunidades de mejora y cumplimiento normativo.</p>
+                </div>
+
+                <div class="service-card">
+                    <h3>♻️ Gestión de Residuos</h3>
+                    <p>Desarrollamos estrategias integrales para reducir, reutilizar y reciclar los residuos de tu organización.</p>
+                </div>
+
+                <div class="service-card">
+                    <h3>⚡ Eficiencia Energética</h3>
+                    <p>Implementamos soluciones para reducir el consumo energético y la huella de carbono de tu empresa.</p>
+                </div>
+
+                <div class="service-card">
+                    <h3>🏅 Certificaciones Verdes</h3>
+                    <p>Te acompañamos en el proceso de obtener certificaciones ambientales reconocidas internacionalmente.</p>
+                </div>
+
+                <div class="service-card">
+                    <h3>📊 Reportes de Sostenibilidad</h3>
+                    <p>Creamos informes detallados que comunican tus logros ambientales a stakeholders y clientes.</p>
+                </div>
+
+                <div class="service-card">
+                    <h3>🌿 Consultoría Estratégica</h3>
+                    <p>Desarrollamos planes a largo plazo para integrar la sostenibilidad en tu modelo de negocio.</p>
+                </div>
+            </div>
+
+            <div class="eco-stats">
+                <h2>Nuestro Impacto en Números</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>500+</h3>
+                        <p>Empresas asesoradas</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>2M+</h3>
+                        <p>Toneladas CO₂ reducidas</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>85%</h3>
+                        <p>Reducción promedio en residuos</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>15</h3>
+                        <p>Años de experiencia</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>¿Por qué elegir EcoVerde?</h2>
+            <ul style="margin: 20px 0; padding-left: 30px; color: #4a7c59;">
+                <li><strong>Experiencia comprobada:</strong> Más de 15 años en consultoría ambiental</li>
+                <li><strong>Enfoque integral:</strong> Cubrimos todos los aspectos de la sostenibilidad</li>
+                <li><strong>ROI garantizado:</strong> Nuestras soluciones generan ahorros medibles</li>
+                <li><strong>Cumplimiento normativo:</strong> Te mantenemos al día con regulaciones</li>
+                <li><strong>Soporte continuo:</strong> Acompañamiento a largo plazo</li>
+            </ul>
+
+            <p style="margin-top: 30px; padding: 20px; background: #e8f5e8; border-radius: 10px; border-left: 4px solid #56ab2f;">
+                <strong>💬 ¿Necesitas asesoría ambiental?</strong><br>
+                Nuestro equipo de consultores especializados está disponible para resolver tus dudas. Inicia una conversación haciendo clic en el botón de chat.
+            </p>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 EcoVerde Consultoría Ambiental. Todos los derechos reservados.</p>
+            <p>Ejemplo de integración - Widget GeekWay Chat (Configuración alternativa)</p>
+        </footer>
+    </div>
+
+    <!-- Widget GeekWay Chat - JavaScript -->
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@43cb379/dist/widget/geekway-chat-widget.min.js"></script>
+
+    <!-- Inicialización con configuración alternativa -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar con tema azul y posición izquierda
+            GeekWayChat.init({
+                apiKey: 'demo-api-key-ecoverde-2025',
+                theme: 'blue',
+                position: 'bottom-left',
+                welcomeMessage: '🌱 ¡Hola! Soy tu consultor ambiental virtual. ¿Cómo puedo ayudarte a hacer tu empresa más sostenible?'
+            });
+
+            console.log('✅ Widget EcoVerde inicializado con configuración personalizada');
+        });
+    </script>
+</body>
+</html>
