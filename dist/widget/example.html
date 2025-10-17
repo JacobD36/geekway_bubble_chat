@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeekWay Chat Widget - Demo</title>
+    <link rel="stylesheet" href="geekway-chat-widget.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Demo - GeekWay Chat Widget</h1>
+        <p>Este es un ejemplo de cómo integrar el widget de chat de GeekWay en tu sitio web.</p>
+        <p>El widget aparece como un botón flotante en la esquina inferior derecha.</p>
+
+        <h2>Características:</h2>
+        <ul>
+            <li>✅ Fácil integración</li>
+            <li>✅ Responsive design</li>
+            <li>✅ Múltiples temas</li>
+            <li>✅ Personalizable</li>
+        </ul>
+    </div>
+
+    <!-- GeekWay Chat Widget -->
+    <geekway-chat-widget
+        api-key="demo-key"
+        theme="purple"
+        position="bottom-right"
+        welcome-message="¡Hola! Este es el widget de GeekWay en modo demo. ¿Cómo puedo ayudarte?">
+    </geekway-chat-widget>
+
+    <script src="geekway-chat-widget.min.js"></script>
+</body>
+</html>
