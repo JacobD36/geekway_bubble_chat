@@ -1,0 +1,87 @@
+<!-- Botón flotante -->
+<button
+  (click)="toggleChat()"
+  [class]="'fixed w-14 h-14 bg-purple-500 hover:bg-purple-600 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 z-50 hover:scale-110 animate-bounce-in ' + 
+          (position === 'bottom-left' ? 'bottom-6 left-6' : 'bottom-6 right-6')"
+>
+  @if (isOpen()) {
+    <svg class="w-6 h-6 text-white transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  } @else {
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+  }
+</button>
+
+<!-- Burbuja de chat -->
+@if (isOpen()) {
+  <div [class]="'fixed bottom-24 w-96 h-[650px] bg-white rounded-2xl shadow-2xl z-40 flex flex-col animate-slide-up border border-gray-200 overflow-hidden ' + 
+              (position === 'bottom-left' ? 'left-6' : 'right-6')"
+  >
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-purple-400 to-purple-500 p-4">
+      <div class="flex items-center justify-center">
+        <div class="text-center">
+          <h3 class="text-white text-lg font-bold">GeekWay Chat</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="flex-1 p-4 overflow-y-auto space-y-4 bg-gray-50 messages-container custom-scrollbar">
+      @for (message of messages(); track message.id) {
+        <div class="flex items-start space-x-3">
+          @if (message.sender === 'bot') {
+            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-white text-xs">🤖</span>
+            </div>
+            <div class="flex-1">
+              <p class="text-xs text-gray-500 mb-1">GeekWay</p>
+              <div class="inline-block bg-purple-400 text-white p-3 rounded-2xl rounded-tl-sm max-w-xs">
+                <p class="text-sm">{{ message.text }}</p>
+              </div>
+            </div>
+          } @else {
+            <div class="flex-1 flex justify-end">
+              <div class="text-right">
+                <p class="text-xs text-gray-500 mb-1">Tú</p>
+                <div class="inline-block bg-blue-500 text-white p-3 rounded-2xl rounded-tr-sm max-w-xs">
+                  <p class="text-sm">{{ message.text }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-white text-xs">👤</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Input Area -->
+    <div class="p-4 bg-white border-t border-gray-200">
+      <div class="flex items-center space-x-2">
+        <input
+          type="text"
+          [ngModel]="inputMessage()"
+          (ngModelChange)="inputMessage.set($event)"
+          (keypress)="onKeyPress($event)"
+          placeholder="Escribe aquí tu mensaje..."
+          class="flex-1 p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 text-sm"
+        />
+        <button
+          (click)="sendMessage()"
+          class="w-10 h-10 bg-purple-500 hover:bg-purple-600 rounded-full flex items-center justify-center transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="!inputMessage().trim()"
+        >
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+}

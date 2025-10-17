@@ -1,59 +1,81 @@
-# GeekwayChatBubble
+# GeekWay Chat Widget
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.2.
+Un widget de chat embebible y personalizable construido con Angular 20.
 
-## Development server
+## 🚀 Características
 
-To start a local development server, run:
+- ✅ **Fácil integración** - Solo una línea de código
+- ✅ **Responsive design** - Se adapta a cualquier pantalla
+- ✅ **Personalizable** - Múltiples temas y posiciones
+- ✅ **Sin dependencias** - Funciona en cualquier sitio web
+- ✅ **Aislamiento de estilos** - No interfiere con tu CSS
+- ✅ **CDN ready** - Listo para distribuir
 
-```bash
-ng serve
+## 📦 Instalación
+
+### Opción 1: HTML Directo
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TU_USUARIO/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.css">
+</head>
+<body>
+    <!-- Tu contenido aquí -->
+    
+    <!-- Widget de GeekWay Chat -->
+    <geekway-chat-widget 
+        api-key="tu-api-key"
+        theme="purple"
+        position="bottom-right"
+        welcome-message="¡Hola! ¿Cómo puedo ayudarte?">
+    </geekway-chat-widget>
+    
+    <script src="https://cdn.jsdelivr.net/gh/TU_USUARIO/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.js"></script>
+</body>
+</html>
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+### Opción 2: JavaScript Initialization
+```html
+<script src="https://cdn.jsdelivr.net/gh/TU_USUARIO/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.js"></script>
+<script>
+  GeekWayChat.init({
+    apiKey: 'tu-api-key',
+    theme: 'purple',
+    position: 'bottom-right',
+    welcomeMessage: '¡Hola! ¿Cómo puedo ayudarte?'
+  });
+</script>
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## ⚙️ Configuración
 
+| Atributo | Tipo | Valores | Descripción |
+|----------|------|---------|-------------|
+| `api-key` | string | - | Tu clave API de GeekWay |
+| `theme` | string | `purple`, `blue`, `green` | Color del widget |
+| `position` | string | `bottom-right`, `bottom-left` | Posición del botón flotante |
+| `welcome-message` | string | - | Mensaje inicial del bot |
+
+## 🛠️ Desarrollo
+
+### Build del Widget
 ```bash
-ng generate --help
+./build-widget.sh
 ```
 
-## Building
+## 🚀 Deployment con GitHub + jsDelivr
 
-To build the project run:
-
+1. **Push a GitHub:**
 ```bash
-ng build
+git add .
+git commit -m "Widget release"
+git tag v1.0.0
+git push origin main --tags
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+2. **Usar CDN automático:**
+```html
+<script src="https://cdn.jsdelivr.net/gh/TU_USUARIO/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.js"></script>
 ```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
