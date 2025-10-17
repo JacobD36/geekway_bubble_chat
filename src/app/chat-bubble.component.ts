@@ -1,4 +1,4 @@
-import { Component, signal, Input, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, signal, Input, ViewEncapsulation, OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,18 +17,34 @@ export interface Message {
   styleUrls: ['./chat-bubble.component.css'],
   encapsulation: ViewEncapsulation.ShadowDom
 })
-export class ChatBubbleComponent implements OnInit {
+export class ChatBubbleComponent implements OnInit, OnChanges {
   @Input() apiKey?: string;
-  @Input() theme?: 'purple' | 'blue' | 'green' = 'purple';
-  @Input() position?: 'bottom-right' | 'bottom-left' = 'bottom-right';
-  @Input() welcomeMessage?: string = '¡Hola! Soy el asistente de GeekWay. ¿En qué puedo ayudarte?';
+  @Input() theme: 'purple' | 'blue' = 'purple';
+  @Input() position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left' = 'bottom-right';
+  @Input() welcomeMessage: string = '¡Hola! Soy el asistente de GeekWay. ¿En qué puedo ayudarte?';
 
   isOpen = signal(false);
   inputMessage = signal('');
   messages = signal<Message[]>([]);
 
   ngOnInit() {
-    // Configurar mensaje inicial
+    this.initializeMessages();
+    console.log('🎯 GeekWay Chat Widget initialized with config:', {
+      apiKey: this.apiKey,
+      theme: this.theme,
+      position: this.position,
+      welcomeMessage: this.welcomeMessage
+    });
+  }
+
+  ngOnChanges() {
+    // Re-inicializar mensajes si cambia el welcomeMessage
+    if (this.messages().length === 0) {
+      this.initializeMessages();
+    }
+  }
+
+  private initializeMessages() {
     this.messages.set([
       {
         id: 1,
@@ -41,6 +57,9 @@ export class ChatBubbleComponent implements OnInit {
 
   toggleChat(): void {
     this.isOpen.update(value => !value);
+    if (this.isOpen()) {
+      setTimeout(() => this.scrollToBottom(), 100);
+    }
   }
 
   sendMessage(): void {
@@ -60,9 +79,18 @@ export class ChatBubbleComponent implements OnInit {
 
     // Simular respuesta del bot después de 1 segundo
     setTimeout(() => {
+      const responses = [
+        'Gracias por escribir. El equipo de GeekWay te responderá pronto.',
+        '¡Perfecto! Hemos recibido tu mensaje. Te contactaremos en breve.',
+        'Mensaje recibido. Un especialista de GeekWay se comunicará contigo.',
+        'Tu consulta es importante para nosotros. Te responderemos a la brevedad.'
+      ];
+      
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      
       const botResponse: Message = {
         id: Date.now() + 1,
-        text: 'Gracias por escribir. El equipo de GeekWay te responderá pronto.',
+        text: randomResponse,
         sender: 'bot',
         timestamp: new Date()
       };
@@ -72,7 +100,8 @@ export class ChatBubbleComponent implements OnInit {
   }
 
   onKeyPress(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
       this.sendMessage();
     }
   }
