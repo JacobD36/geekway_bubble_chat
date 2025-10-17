@@ -37,7 +37,7 @@ cat > dist/widget/README.md << 'EOF'
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tuusuario/geekway-chat-widget@latest/dist/widget/geekway-chat-widget.min.css">
 
 <!-- En el body -->
-<geekway-chat-widget 
+<geekway-chat-widget
   api-key="tu-api-key"
   theme="purple"
   position="bottom-right">
@@ -99,7 +99,7 @@ cat > dist/widget/example.html << 'EOF'
         <h1>Demo - GeekWay Chat Widget</h1>
         <p>Este es un ejemplo de cómo integrar el widget de chat de GeekWay en tu sitio web.</p>
         <p>El widget aparece como un botón flotante en la esquina inferior derecha.</p>
-        
+
         <h2>Características:</h2>
         <ul>
             <li>✅ Fácil integración</li>
@@ -110,7 +110,7 @@ cat > dist/widget/example.html << 'EOF'
     </div>
 
     <!-- GeekWay Chat Widget -->
-    <geekway-chat-widget 
+    <geekway-chat-widget
         api-key="demo-key"
         theme="purple"
         position="bottom-right"
