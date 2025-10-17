@@ -1,8 +1,8 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
-/dist/geekway_chat_bubble/
-# Note: /dist/widget/ is included for CDN distribution
+/dist/*
+!/dist/widget/
 /tmp
 /out-tsc
 /bazel-out
