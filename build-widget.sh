@@ -1,18 +1,27 @@
 #!/bin/bash
 
-echo "� Building GeekWay Chat Widget..."
+echo "🔨 Building GeekWay Chat Widget..."
 
 # Limpiar directorio de distribución
 rm -rf dist/
 
+# Crear backup del main.ts original
+cp src/main.ts src/main.ts.backup
+
+# Reemplazar main.ts con widget.ts para el build
+cp src/widget.ts src/main.ts
+
 # Build para producción
-echo "🏗️ Building Angular project..."
+echo "🏗️ Building Angular project for widget..."
 ng build --configuration production --output-hashing none
+
+# Restaurar main.ts original
+mv src/main.ts.backup src/main.ts
 
 # Crear directorio para el widget
 mkdir -p dist/widget
 
-# Combinar archivos JS (incluyendo polyfills, main y widget-api)
+# Combinar archivos JS
 echo "📦 Concatenating JavaScript files..."
 cat dist/geekway_chat_bubble/browser/polyfills.js \
     dist/geekway_chat_bubble/browser/main.js > dist/widget/geekway-chat-widget.js
@@ -90,7 +99,7 @@ cat > dist/widget/example.html << 'EOF'
             <li>📱 Totalmente responsive</li>
             <li>🔒 Aislamiento de estilos (Shadow DOM)</li>
         </ul>
-        
+
         <h2>Implementación:</h2>
         <pre><code>&lt;script src="geekway-chat-widget.min.js"&gt;&lt;/script&gt;
 &lt;script&gt;
@@ -102,7 +111,7 @@ cat > dist/widget/example.html << 'EOF'
     });
 &lt;/script&gt;</code></pre>
     </div>
-    
+
     <script src="geekway-chat-widget.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -210,7 +219,7 @@ echo ""
 echo "📁 Files created:"
 echo "   📄 dist/widget/geekway-chat-widget.js"
 echo "   📄 dist/widget/geekway-chat-widget.min.js"
-echo "   🎨 dist/widget/geekway-chat-widget.css"  
+echo "   🎨 dist/widget/geekway-chat-widget.css"
 echo "   🎨 dist/widget/geekway-chat-widget.min.css"
 echo "   📖 dist/widget/README.md"
 echo "   🌐 dist/widget/example.html"

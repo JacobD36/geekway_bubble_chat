@@ -28,25 +28,25 @@ export class GeekWayChat {
 
     // Crear el elemento
     this.widget = document.createElement('geekway-chat-widget');
-    
+
     // Configurar atributos
     this.widget.setAttribute('api-key', config.apiKey);
-    
+
     if (config.theme) {
       this.widget.setAttribute('theme', config.theme);
     }
-    
+
     if (config.position) {
       this.widget.setAttribute('position', config.position);
     }
-    
+
     if (config.welcomeMessage) {
       this.widget.setAttribute('welcome-message', config.welcomeMessage);
     }
 
     // Agregar al DOM
     document.body.appendChild(this.widget);
-    
+
     console.log('✅ GeekWay Chat Widget inicializado:', config);
   }
 
