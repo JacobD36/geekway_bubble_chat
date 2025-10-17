@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo Simple - GeekWay Chat</title>
+
+    <!-- GeekWay Chat Widget CSS desde CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .integration-code {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            color: #FFD700;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 GeekWay Chat Widget</h1>
+        <p class="subtitle">Widget de chat integrable para tu sitio web</p>
+
+        <div class="info-box">
+            <h3>✨ Características</h3>
+            <ul style="text-align: left; max-width: 400px; margin: 0 auto;">
+                <li>🎨 Tema personalizable (purple por defecto)</li>
+                <li>📱 Diseño responsive</li>
+                <li>🔧 Fácil integración</li>
+                <li>💬 Respuestas automáticas</li>
+                <li>🎯 Posicionamiento configurable</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>🔗 Integración CDN</h3>
+            <div class="integration-code">
+&lt;!-- CSS --&gt;<br>
+&lt;link rel="stylesheet" href="<span class="highlight">https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.css</span>"&gt;<br><br>
+&lt;!-- JavaScript --&gt;<br>
+&lt;script src="<span class="highlight">https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.js</span>"&gt;&lt;/script&gt;<br><br>
+&lt;!-- Inicialización --&gt;<br>
+&lt;script&gt;<br>
+&nbsp;&nbsp;<span class="highlight">GeekWayChat.init</span>({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;apiKey: 'tu-api-key',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;theme: 'purple',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;position: 'bottom-right',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;welcomeMessage: '¡Hola! ¿En qué puedo ayudarte?'<br>
+&nbsp;&nbsp;});<br>
+&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>🎮 Prueba el Widget</h3>
+            <p>Busca el botón circular púrpura en la esquina inferior derecha 👉</p>
+            <p><em>¡Haz clic para probarlo!</em></p>
+        </div>
+    </div>
+
+    <!-- GeekWay Chat Widget JavaScript desde CDN -->
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.js"></script>
+
+    <!-- Inicialización del Widget -->
+    <script>
+        // Esperamos un momento para asegurar que el script se cargue completamente
+        setTimeout(() => {
+            try {
+                GeekWayChat.init({
+                    apiKey: 'demo-api-key-2024',
+                    theme: 'purple',
+                    position: 'bottom-right',
+                    welcomeMessage: '¡Hola! 👋 Soy el widget de GeekWay Chat. ¿En qué puedo ayudarte hoy?'
+                });
+                console.log('✅ GeekWay Chat Widget inicializado correctamente!');
+            } catch (error) {
+                console.error('❌ Error al inicializar GeekWay Chat:', error);
+            }
+        }, 500);
+    </script>
+</body>
+</html>

@@ -85,9 +85,9 @@ export class ChatBubbleComponent implements OnInit, OnChanges {
         'Mensaje recibido. Un especialista de GeekWay se comunicará contigo.',
         'Tu consulta es importante para nosotros. Te responderemos a la brevedad.'
       ];
-      
+
       const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      
+
       const botResponse: Message = {
         id: Date.now() + 1,
         text: randomResponse,

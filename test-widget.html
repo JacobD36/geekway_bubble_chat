@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba GeekWay Chat Widget</title>
+
+    <!-- GeekWay Chat Widget CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-info {
+            background: #e8f4fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Prueba GeekWay Chat Widget</h1>
+
+        <div id="status" class="test-info">
+            📡 Cargando widget desde CDN...
+        </div>
+
+        <h2>Información de la Prueba:</h2>
+        <ul>
+            <li><strong>CDN CSS:</strong> https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.css</li>
+            <li><strong>CDN JS:</strong> https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.js</li>
+            <li><strong>Versión:</strong> v1.2.0</li>
+        </ul>
+
+        <h2>Configuración del Widget:</h2>
+        <pre><code>GeekWayChat.init({
+    apiKey: 'test-api-key-v1.2.0',
+    theme: 'purple',
+    position: 'bottom-right',
+    welcomeMessage: '¡Hola! Prueba del widget GeekWay Chat v1.2.0'
+});</code></pre>
+
+        <h2>Verificaciones Automáticas:</h2>
+        <div id="checks">
+            <div id="check-widget">⏳ Verificando disponibilidad de GeekWayChat...</div>
+            <div id="check-element">⏳ Verificando custom element...</div>
+            <div id="check-init">⏳ Verificando inicialización...</div>
+        </div>
+
+        <h2>Instrucciones:</h2>
+        <p>Si todo funciona correctamente, deberías ver:</p>
+        <ol>
+            <li>Un botón circular púrpura en la esquina inferior derecha</li>
+            <li>Al hacer clic, se abre un chat con el mensaje de bienvenida</li>
+            <li>Puedes escribir mensajes y recibir respuestas automáticas</li>
+        </ol>
+    </div>
+
+    <!-- GeekWay Chat Widget JavaScript -->
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.js"></script>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const checksDiv = document.getElementById('checks');
+
+        function updateCheck(id, status, message) {
+            const element = document.getElementById(id);
+            const icon = status === 'success' ? '✅' : status === 'error' ? '❌' : '⏳';
+            element.innerHTML = `${icon} ${message}`;
+        }
+
+        function runTests() {
+            console.log('🧪 Iniciando pruebas del widget...');
+
+            // Verificar que GeekWayChat esté disponible
+            if (typeof window.GeekWayChat !== 'undefined') {
+                updateCheck('check-widget', 'success', 'GeekWayChat está disponible globalmente');
+                console.log('✅ GeekWayChat found:', window.GeekWayChat);
+            } else {
+                updateCheck('check-widget', 'error', 'GeekWayChat NO está disponible');
+                console.error('❌ GeekWayChat not found');
+                statusDiv.className = 'error';
+                statusDiv.innerHTML = '❌ Error: GeekWayChat no está disponible';
+                return;
+            }
+
+            // Verificar que el custom element esté registrado
+            if (customElements.get('geekway-chat-widget')) {
+                updateCheck('check-element', 'success', 'Custom element "geekway-chat-widget" registrado');
+                console.log('✅ Custom element registered');
+            } else {
+                updateCheck('check-element', 'error', 'Custom element NO registrado');
+                console.error('❌ Custom element not registered');
+            }
+
+            // Intentar inicializar el widget
+            try {
+                window.GeekWayChat.init({
+                    apiKey: 'test-api-key-v1.2.0',
+                    theme: 'purple',
+                    position: 'bottom-right',
+                    welcomeMessage: '¡Hola! Prueba del widget GeekWay Chat v1.2.0 😊'
+                });
+
+                updateCheck('check-init', 'success', 'Widget inicializado correctamente');
+                console.log('✅ Widget initialized successfully');
+
+                statusDiv.className = 'success';
+                statusDiv.innerHTML = '✅ Widget cargado y funcionando correctamente!';
+
+                // Verificar que el elemento se agregó al DOM
+                setTimeout(() => {
+                    const widget = document.querySelector('geekway-chat-widget');
+                    if (widget) {
+                        console.log('✅ Widget element found in DOM:', widget);
+                    } else {
+                        console.warn('⚠️ Widget element not found in DOM');
+                    }
+                }, 500);
+
+            } catch (error) {
+                updateCheck('check-init', 'error', 'Error al inicializar: ' + error.message);
+                console.error('❌ Initialization error:', error);
+                statusDiv.className = 'error';
+                statusDiv.innerHTML = '❌ Error al inicializar el widget: ' + error.message;
+            }
+        }
+
+        // Esperar a que el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runTests);
+        } else {
+            // El DOM ya está listo, ejecutar las pruebas después de un pequeño delay
+            setTimeout(runTests, 100);
+        }
+    </script>
+</body>
+</html>

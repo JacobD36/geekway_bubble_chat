@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeekWay Chat Widget - Ejemplo</title>
+    <link rel="stylesheet" href="geekway-chat-widget.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .info {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 GeekWay Chat Widget</h1>
+        <div class="success">
+            ✅ Widget cargado correctamente desde archivos locales
+        </div>
+        <div class="info">
+            💬 El widget de chat debería aparecer en la esquina inferior derecha de esta página.
+        </div>
+        <h2>Características del Widget:</h2>
+        <ul>
+            <li>🎨 Tema personalizable (púrpura/azul)</li>
+            <li>📍 Posición configurable</li>
+            <li>💬 Mensajes de bienvenida personalizados</li>
+            <li>📱 Totalmente responsive</li>
+            <li>🔒 Aislamiento de estilos (Shadow DOM)</li>
+        </ul>
+
+        <h2>Implementación vía CDN:</h2>
+        <pre><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    GeekWayChat.init({
+        apiKey: 'tu-api-key',
+        theme: 'purple',
+        position: 'bottom-right',
+        welcomeMessage: '¡Hola! ¿En qué puedo ayudarte?'
+    });
+&lt;/script&gt;</code></pre>
+    </div>
+
+    <script src="geekway-chat-widget.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            GeekWayChat.init({
+                apiKey: 'demo-api-key-example',
+                theme: 'purple',
+                position: 'bottom-right',
+                welcomeMessage: '¡Hola! Este es un ejemplo del widget GeekWay Chat. ¿En qué puedo ayudarte? 😊'
+            });
+        });
+    </script>
+</body>
+</html>
