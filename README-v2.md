@@ -1,18 +1,25 @@
-# 🚀 GeekWay Chat Widget v2.0.0 - Vanilla JS Universal Edition
+# 🚀 GeekWay Chat Widget v2.1.0 - Vanilla JS Universal Edition with Avatar Icons
 
-[![CDN](https://img.shields.io/badge/CDN-jsDelivr-orange)](https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.0.0/dist/widget/)
-[![Version](https://img.shields.io/badge/version-v2.0.0-blue)](https://github.com/JacobD36/geekway_bubble_chat/releases/tag/v2.0.0)
-[![Size](https://img.shields.io/badge/size-10KB-green)](https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.0.0/dist/widget/geekway-chat-widget.min.js)
+[![CDN](https://img.shields.io/badge/CDN-jsDelivr-orange)](https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/)
+[![Version](https://img.shields.io/badge/version-v2.1.0-blue)](https://github.com/JacobD36/geekway_bubble_chat/releases/tag/v2.1.0)
+[![Size](https://img.shields.io/badge/size-12KB-green)](https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.min.js)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
 Un widget de chat moderno, liviano y universal que funciona en cualquier sitio web sin dependencias de frameworks.
 
+## 🎨 **¡NUEVO en v2.1.0! - Iconos de Avatar**
+
+- **🤖 Icono del Bot** - Avatar distintivo con escudo para mensajes del sistema
+- **👤 Icono del Usuario** - Avatar personal para mensajes del cliente  
+- **💬 UX Mejorada** - Identificación visual clara de roles en la conversación
+- **📦 SVG Integrado** - Sin dependencias externas, iconos incluidos en el widget
+
 ## ✨ **Características principales**
 
 - 🚀 **Vanilla JavaScript puro** - Sin dependencias de Angular, React o Vue
-- 📦 **Ultra liviano** - Solo 10KB minificado (vs 277KB de la versión Angular)
+- 📦 **Ultra liviano** - Solo 12KB minificado (incluye nuevos iconos)
 - 🌐 **Compatibilidad universal** - Funciona en cualquier sitio web
-- 🎨 **Diseño moderno** - Interfaz elegante con tema púrpura de GeekWay
+- 🎨 **Diseño moderno** - Interfaz elegante con tema púrpura de GeekWay + avatares
 - 📱 **Responsive** - Se adapta a dispositivos móviles
 - 🔧 **Fácil integración** - Solo dos líneas de código
 - ⚡ **Carga instantánea** - Sin bootstrap de frameworks
@@ -24,10 +31,10 @@ Un widget de chat moderno, liviano y universal que funciona en cualquier sitio w
 
 ```html
 <!-- CSS (opcional - estilos incluidos en JS) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.0.0/dist/widget/geekway-chat-widget.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.min.css">
 
 <!-- JavaScript del widget -->
-<script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.0.0/dist/widget/geekway-chat-widget.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.min.js"></script>
 
 <!-- Inicializar el widget -->
 <script>
@@ -43,7 +50,7 @@ Un widget de chat moderno, liviano y universal que funciona en cualquier sitio w
 ### 🔗 **Opción 2: Una sola línea (solo JS)**
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.0.0/dist/widget/geekway-chat-widget.min.js" onload="GeekWayChat.init({apiKey: 'tu-api-key', welcomeMessage: '¡Hola desde GeekWay!'})"></script>
+<script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.min.js" onload="GeekWayChat.init({apiKey: 'tu-api-key', welcomeMessage: '¡Hola desde GeekWay!'})"></script>
 ```
 
 ## ⚙️ **Configuración**
