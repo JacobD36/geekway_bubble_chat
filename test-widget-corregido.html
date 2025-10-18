@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧪 Test GeekWay Chat Widget CORREGIDO</title>
-    
+
     <!-- GeekWay Chat Widget CSS -->
     <link rel="stylesheet" href="dist/widget/geekway-chat-widget.min.css">
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -91,17 +91,15 @@
         </div>
     </div>
 
-    <!-- GeekWay Chat Widget JavaScript LOCAL -->
-    <script src="dist/widget/geekway-chat-widget.min.js"></script>
-    
-    <script>
+    <!-- GeekWay Chat Widget JavaScript LOCAL - RUTA CORREGIDA -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>    <script>
         const results = document.getElementById('test-results');
         const logsDiv = document.getElementById('console-logs');
-        
+
         // Capturar logs de consola
         const originalLog = console.log;
         const originalError = console.error;
-        
+
         function addLog(message, type = 'log') {
             const time = new Date().toLocaleTimeString();
             const logEntry = document.createElement('div');
@@ -110,39 +108,39 @@
             logsDiv.appendChild(logEntry);
             logsDiv.scrollTop = logsDiv.scrollHeight;
         }
-        
+
         console.log = function(...args) {
             originalLog.apply(console, args);
             addLog(args.join(' '), 'log');
         };
-        
+
         console.error = function(...args) {
             originalError.apply(console, args);
             addLog(args.join(' '), 'error');
         };
-        
+
         function addResult(message, type = 'info') {
             const div = document.createElement('div');
             div.className = `status ${type}`;
             div.innerHTML = message;
             results.appendChild(div);
         }
-        
+
         function runTests() {
             console.log('🧪 Iniciando tests del widget corregido...');
-            
+
             // Test 1: Verificar disponibilidad inmediata de GeekWayChat
             const startTime = performance.now();
-            
+
             if (typeof window.GeekWayChat !== 'undefined') {
                 const loadTime = (performance.now() - startTime).toFixed(2);
                 addResult(`✅ GeekWayChat disponible inmediatamente (${loadTime}ms)`, 'success');
                 console.log('✅ GeekWayChat encontrado:', window.GeekWayChat);
-                
+
                 // Test 2: Verificar método init
                 if (typeof window.GeekWayChat.init === 'function') {
                     addResult('✅ Método GeekWayChat.init() disponible', 'success');
-                    
+
                     // Test 3: Inicializar widget
                     try {
                         const widget = window.GeekWayChat.init({
@@ -151,17 +149,17 @@
                             position: 'bottom-right',
                             welcomeMessage: '¡Hola! Widget corregido funcionando 🎉'
                         });
-                        
+
                         addResult('✅ Widget inicializado sin errores', 'success');
                         console.log('✅ Widget inicializado:', widget);
-                        
+
                         // Test 4: Verificar métodos adicionales
                         if (typeof widget.show === 'function' && typeof widget.hide === 'function') {
                             addResult('✅ Métodos show() y hide() disponibles', 'success');
                         } else {
                             addResult('⚠️ Métodos show() y hide() no encontrados', 'info');
                         }
-                        
+
                     } catch(e) {
                         addResult('❌ Error al inicializar widget: ' + e.message, 'error');
                         console.error('❌ Error inicializando:', e);
@@ -173,12 +171,12 @@
                 addResult('❌ GeekWayChat NO está disponible', 'error');
                 console.error('❌ GeekWayChat no encontrado');
             }
-            
+
             // Test 5: Verificar custom element después de un tiempo
             setTimeout(() => {
                 if (customElements.get('geekway-chat-widget')) {
                     addResult('✅ Custom element "geekway-chat-widget" registrado', 'success');
-                    
+
                     // Test 6: Verificar que el widget se agregó al DOM
                     const widgetElement = document.querySelector('geekway-chat-widget');
                     if (widgetElement) {
@@ -191,11 +189,11 @@
                 }
             }, 1500);
         }
-        
+
         // Ejecutar tests inmediatamente
         console.log('🚀 Cargando tests...');
         runTests();
-        
+
         // También ejecutar cuando el DOM esté listo (por si acaso)
         document.addEventListener('DOMContentLoaded', () => {
             console.log('📄 DOM completamente cargado');

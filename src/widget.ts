@@ -17,13 +17,13 @@ class GeekWayChat {
 
   static init(config: ChatConfig): GeekWayChat {
     console.log('🚀 Inicializando GeekWayChat...', config);
-    
+
     if (GeekWayChat.instance) {
       GeekWayChat.instance.destroy();
     }
 
     GeekWayChat.instance = new GeekWayChat();
-    
+
     if (GeekWayChat.isAngularReady) {
       GeekWayChat.instance.createWidget(config);
     } else {
@@ -33,7 +33,7 @@ class GeekWayChat {
         }
       });
     }
-    
+
     return GeekWayChat.instance;
   }
 
@@ -51,15 +51,15 @@ class GeekWayChat {
     this.widget = document.createElement('geekway-chat-widget');
 
     this.widget.setAttribute('api-key', config.apiKey);
-    
+
     if (config.theme) {
       this.widget.setAttribute('theme', config.theme);
     }
-    
+
     if (config.position) {
       this.widget.setAttribute('position', config.position);
     }
-    
+
     if (config.welcomeMessage) {
       this.widget.setAttribute('welcome-message', config.welcomeMessage);
     }
@@ -91,12 +91,13 @@ class GeekWayChat {
   }
 }
 
+// ✅ CRÍTICO: Exponer GeekWayChat globalmente INMEDIATAMENTE
 (window as any).GeekWayChat = GeekWayChat;
 console.log('✅ GeekWayChat disponible globalmente');
 
 createApplication(appConfig).then(appRef => {
   console.log('🔧 Angular inicializado, registrando custom element...');
-  
+
   const chatElement = createCustomElement(ChatBubbleComponent, {
     injector: appRef.injector
   });
