@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎯 Test Angular Elements Mejorado - GeekWay Chat</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            padding: 20px; 
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             margin: 0;
@@ -20,11 +20,11 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .status { 
-            padding: 15px; 
-            margin: 15px 0; 
-            border-radius: 10px; 
-            font-weight: bold; 
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
             border-left: 4px solid #8b5cf6;
         }
         .success { background: #d4edda; color: #155724; }
@@ -62,7 +62,7 @@
 <body>
     <div class="container">
         <h1>🎯 Test Angular Elements - Versión Mejorada</h1>
-        
+
         <div class="comparison-grid">
             <div class="version-box vanilla-box">
                 <strong>✅ VANILLA JS v2.1.0</strong><br>
@@ -108,46 +108,44 @@
 
     <script>
         const results = document.getElementById('results');
-        
+
         function addResult(message, type = 'info') {
             const div = document.createElement('div');
             div.className = `status ${type}`;
             div.innerHTML = message;
             results.appendChild(div);
         }
-        
+
         addResult('✅ Página cargada correctamente', 'success');
         addResult('⏳ Cargando Angular Elements mejorado...', 'info');
     </script>
-    
+
     <!-- Angular Elements con mejoras -->
     <script src="dist/widget/geekway-chat-widget.min.js"></script>
-    
+
     <script>
         setTimeout(() => {
             addResult('📡 Angular Elements cargado', 'info');
-            
+
             // Verificar si el elemento personalizado está disponible
-            if (customElements.get('chat-bubble')) {
-                addResult('✅ Custom Element "chat-bubble" registrado correctamente!', 'success');
+            if (customElements.get('geekway-chat-bubble')) {
+                addResult('✅ Custom Element "geekway-chat-bubble" registrado correctamente!', 'success');
                 
                 // Crear el elemento
-                const chatBubble = document.createElement('chat-bubble');
+                const chatBubble = document.createElement('geekway-chat-bubble');
                 chatBubble.setAttribute('position', 'bottom-right');
                 chatBubble.setAttribute('theme', 'purple');
-                document.body.appendChild(chatBubble);
-                
-                addResult('✅ Widget Angular Elements inicializado', 'success');
+                document.body.appendChild(chatBubble);                addResult('✅ Widget Angular Elements inicializado', 'success');
                 addResult('🎯 ¡Observa el widget en la esquina inferior derecha!', 'feature');
                 addResult('💬 Compara con la versión Vanilla JS', 'feature');
                 addResult('🎨 Verifica iconos SVG y alineación mejorada', 'feature');
-                
+
             } else {
                 addResult('❌ Custom Element no disponible - verificar build', 'warning');
-                
+
                 // Intentar registrar manualmente (backup)
                 addResult('🔄 Intentando cargar widget de respaldo...', 'info');
-                
+
                 if (typeof window.GeekWayChat !== 'undefined') {
                     window.GeekWayChat.init({
                         apiKey: 'demo-angular-v2.2.0',

@@ -48,8 +48,9 @@ https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.2.0/dist/widget/geek
 
 ### **🔧 Angular Elements (Componente Web - 190KB)**
 ```html
+<!-- Angular Elements -->
 <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.2.0/dist/widget/geekway-chat-widget.min.js"></script>
-<chat-bubble position="bottom-right" theme="purple"></chat-bubble>
+<geekway-chat-bubble position="bottom-right" theme="purple"></geekway-chat-bubble>
 ```
 
 ## 📊 **COMPARATIVA DE VERSIONES**
