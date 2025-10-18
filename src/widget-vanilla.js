@@ -89,11 +89,33 @@ class GeekWayChat {
   renderMessages() {
     return this.messages.map(msg => `
       <div class="message ${msg.sender}">
+        <div class="message-avatar">
+          ${msg.sender === 'bot' ? this.getBotIcon() : this.getUserIcon()}
+        </div>
         <div class="message-content">
           <span class="message-text">${msg.text}</span>
         </div>
       </div>
     `).join('');
+  }
+
+  getBotIcon() {
+    return `
+      <svg class="avatar-icon bot-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+        <circle cx="9" cy="10" r="1.5"/>
+        <circle cx="15" cy="10" r="1.5"/>
+        <path d="M8 14c0 2.21 1.79 4 4 4s4-1.79 4-4H8z"/>
+      </svg>
+    `;
+  }
+
+  getUserIcon() {
+    return `
+      <svg class="avatar-icon user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    `;
   }
 
   setupEvents() {
@@ -329,6 +351,8 @@ class GeekWayChat {
       .message {
         margin-bottom: 16px;
         display: flex;
+        align-items: flex-end;
+        gap: 8px;
       }
 
       .message.bot {
@@ -337,26 +361,66 @@ class GeekWayChat {
 
       .message.user {
         justify-content: flex-end;
+        flex-direction: row-reverse;
+      }
+
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-bottom: 2px;
+      }
+
+      .message.bot .message-avatar {
+        background: #8b5cf6;
+        color: white;
+        order: 1;
+      }
+
+      .message.user .message-avatar {
+        background: #3b82f6;
+        color: white;
+        order: 1;
+      }
+
+      .avatar-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      .bot-icon {
+        color: white;
+      }
+
+      .user-icon {
+        color: white;
       }
 
       .message-content {
-        max-width: 80%;
+        max-width: calc(100% - 40px);
         padding: 12px 16px;
         border-radius: 18px;
         font-size: 14px;
         line-height: 1.4;
+        order: 2;
       }
 
       .message.bot .message-content {
-        background: #8b5cf6;
-        color: white;
+        background: #f3f4f6;
+        color: #374151;
         border-bottom-left-radius: 4px;
+        margin-left: 0;
       }
 
       .message.user .message-content {
         background: #3b82f6;
         color: white;
         border-bottom-right-radius: 4px;
+        margin-right: 0;
       }
 
       .chat-input {

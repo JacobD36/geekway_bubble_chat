@@ -27,7 +27,7 @@ class GeekWayChat {
     const theme = config.theme || 'purple';
     const position = config.position || 'bottom-right';
     const welcomeMessage = config.welcomeMessage || '¡Hola! Soy el asistente de GeekWay. ¿En qué puedo ayudarte?';
-    
+
     // Inicializar mensajes
     this.messages = [{
       id: 1,
@@ -38,7 +38,7 @@ class GeekWayChat {
 
     // Crear estilos CSS
     this.injectStyles();
-    
+
     // Crear el widget HTML
     this.widget = document.createElement('div');
     this.widget.className = `geekway-chat-widget ${this.getPositionClass(position)}`;
@@ -51,7 +51,7 @@ class GeekWayChat {
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
-      
+
       <div class="chat-window hidden">
         <div class="chat-header">
           <h3>GeekWay Chat</h3>
@@ -69,13 +69,13 @@ class GeekWayChat {
         </div>
       </div>
     `;
-    
+
     // Agregar al DOM
     document.body.appendChild(this.widget);
-    
+
     // Configurar eventos
     this.setupEvents();
-    
+
     console.log('✅ GeekWay Chat Widget creado (Vanilla JS)', {position: position, class: this.getPositionClass(position)});
   }  getPositionClass(position) {
     switch (position) {
@@ -89,11 +89,33 @@ class GeekWayChat {
   renderMessages() {
     return this.messages.map(msg => `
       <div class="message ${msg.sender}">
+        <div class="message-avatar">
+          ${msg.sender === 'bot' ? this.getBotIcon() : this.getUserIcon()}
+        </div>
         <div class="message-content">
           <span class="message-text">${msg.text}</span>
         </div>
       </div>
     `).join('');
+  }
+
+  getBotIcon() {
+    return `
+      <svg class="avatar-icon bot-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+        <circle cx="9" cy="10" r="1.5"/>
+        <circle cx="15" cy="10" r="1.5"/>
+        <path d="M8 14c0 2.21 1.79 4 4 4s4-1.79 4-4H8z"/>
+      </svg>
+    `;
+  }
+
+  getUserIcon() {
+    return `
+      <svg class="avatar-icon user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+    `;
   }
 
   setupEvents() {
@@ -195,7 +217,7 @@ class GeekWayChat {
         margin: 0;
         padding: 0;
       }
-      
+
       .chat-button {
         position: fixed;
         width: 56px;
@@ -211,18 +233,18 @@ class GeekWayChat {
         z-index: 9999;
         transition: all 0.3s ease;
       }
-      
+
       .chat-button:hover {
         background: #7c3aed;
         transform: scale(1.1);
       }
-      
+
       .chat-button svg {
         width: 24px;
         height: 24px;
         color: white;
       }
-      
+
       .chat-window {
         position: fixed;
         width: 384px;
@@ -237,7 +259,7 @@ class GeekWayChat {
         transition: all 0.3s ease;
         animation: slideUp 0.3s ease-out;
       }
-      
+
       @keyframes slideUp {
         from {
           opacity: 0;
@@ -248,76 +270,76 @@ class GeekWayChat {
           transform: translateY(0) scale(1);
         }
       }
-      
+
       .chat-window.hidden {
         display: none;
       }
-      
+
       /* POSICIONAMIENTO BOTTOM-RIGHT (por defecto) */
       .geekway-chat-widget .position-bottom-right .chat-button,
       .geekway-chat-widget.position-bottom-right .chat-button {
         bottom: 24px;
         right: 24px;
       }
-      
+
       .geekway-chat-widget .position-bottom-right .chat-window,
       .geekway-chat-widget.position-bottom-right .chat-window {
         bottom: 96px;
         right: 24px;
       }
-      
+
       /* POSICIONAMIENTO BOTTOM-LEFT */
       .geekway-chat-widget .position-bottom-left .chat-button,
       .geekway-chat-widget.position-bottom-left .chat-button {
         bottom: 24px;
         left: 24px;
       }
-      
+
       .geekway-chat-widget .position-bottom-left .chat-window,
       .geekway-chat-widget.position-bottom-left .chat-window {
         bottom: 96px;
         left: 24px;
       }
-      
+
       /* POSICIONAMIENTO TOP-RIGHT */
       .geekway-chat-widget .position-top-right .chat-button,
       .geekway-chat-widget.position-top-right .chat-button {
         top: 24px;
         right: 24px;
       }
-      
+
       .geekway-chat-widget .position-top-right .chat-window,
       .geekway-chat-widget.position-top-right .chat-window {
         top: 96px;
         right: 24px;
       }
-      
+
       /* POSICIONAMIENTO TOP-LEFT */
       .geekway-chat-widget .position-top-left .chat-button,
       .geekway-chat-widget.position-top-left .chat-button {
         top: 24px;
         left: 24px;
       }
-      
+
       .geekway-chat-widget .position-top-left .chat-window,
       .geekway-chat-widget.position-top-left .chat-window {
         top: 96px;
         left: 24px;
       }
-      
+
       .chat-header {
         background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         color: white;
         padding: 16px;
         text-align: center;
       }
-      
+
       .chat-header h3 {
         font-size: 18px;
         font-weight: bold;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
-      
+
       .chat-messages {
         flex: 1;
         padding: 16px;
@@ -325,40 +347,82 @@ class GeekWayChat {
         background: #f9fafb;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
-      
+
       .message {
         margin-bottom: 16px;
         display: flex;
+        align-items: flex-end;
+        gap: 8px;
       }
-      
+
       .message.bot {
         justify-content: flex-start;
       }
-      
+
       .message.user {
         justify-content: flex-end;
+        flex-direction: row-reverse;
       }
-      
+
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-bottom: 2px;
+      }
+
+      .message.bot .message-avatar {
+        background: #8b5cf6;
+        color: white;
+        order: 1;
+      }
+
+      .message.user .message-avatar {
+        background: #3b82f6;
+        color: white;
+        order: 1;
+      }
+
+      .avatar-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      .bot-icon {
+        color: white;
+      }
+
+      .user-icon {
+        color: white;
+      }
+
       .message-content {
-        max-width: 80%;
+        max-width: calc(100% - 40px);
         padding: 12px 16px;
         border-radius: 18px;
         font-size: 14px;
         line-height: 1.4;
+        order: 2;
       }
-      
+
       .message.bot .message-content {
-        background: #8b5cf6;
-        color: white;
+        background: #f3f4f6;
+        color: #374151;
         border-bottom-left-radius: 4px;
+        margin-left: 0;
       }
-      
+
       .message.user .message-content {
         background: #3b82f6;
         color: white;
         border-bottom-right-radius: 4px;
+        margin-right: 0;
       }
-      
+
       .chat-input {
         display: flex;
         padding: 16px;
@@ -366,7 +430,7 @@ class GeekWayChat {
         border-top: 1px solid #e5e7eb;
         gap: 8px;
       }
-      
+
       #message-input {
         flex: 1;
         padding: 12px 16px;
@@ -376,12 +440,12 @@ class GeekWayChat {
         font-size: 14px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
-      
+
       #message-input:focus {
         border-color: #8b5cf6;
         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
       }
-      
+
       #send-button {
         width: 40px;
         height: 40px;
@@ -394,21 +458,21 @@ class GeekWayChat {
         cursor: pointer;
         transition: background 0.2s ease;
       }
-      
+
       #send-button:hover {
         background: #7c3aed;
       }
-      
+
       #send-button svg {
         width: 20px;
         height: 20px;
         color: white;
       }
-      
+
       .hidden {
         display: none !important;
       }
-      
+
       @media (max-width: 640px) {
         .chat-window {
           width: calc(100vw - 32px);
@@ -419,7 +483,7 @@ class GeekWayChat {
         }
       }
     `;
-    
+
     document.head.appendChild(style);
   }  destroy() {
     if (this.widget) {

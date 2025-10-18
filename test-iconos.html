@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Test Mejorado - GeekWay Chat con Iconos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            border-left: 4px solid #8b5cf6;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .feature { background: #fff3cd; color: #856404; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .demo-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-item {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 GeekWay Chat Widget - Versión Mejorada con Iconos</h1>
+
+        <div class="demo-section">
+            <h3>✨ Nuevas características implementadas:</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <strong>🤖 Icono del Bot</strong><br>
+                    Avatar distintivo para el sistema GeekWay
+                </div>
+                <div class="feature-item">
+                    <strong>👤 Icono del Usuario</strong><br>
+                    Avatar personal para el cliente
+                </div>
+                <div class="feature-item">
+                    <strong>🎨 Diseño Mejorado</strong><br>
+                    Mejor separación visual entre mensajes
+                </div>
+                <div class="feature-item">
+                    <strong>💬 UX Optimizada</strong><br>
+                    Conversación más clara y profesional
+                </div>
+            </div>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+
+        addResult('✅ Página cargada correctamente', 'success');
+        addResult('⏳ Cargando widget mejorado con iconos...', 'info');
+    </script>
+
+    <!-- JavaScript del widget mejorado -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+
+    <script>
+        // Test de la versión mejorada
+        addResult('📡 Widget mejorado cargado, verificando funcionalidad...', 'info');
+
+        if (typeof window.GeekWayChat !== 'undefined') {
+            addResult('✅ GeekWayChat disponible - Versión con iconos cargada!', 'success');
+
+            try {
+                const result = window.GeekWayChat.init({
+                    apiKey: 'demo-iconos-v2',
+                    theme: 'purple',
+                    position: 'bottom-right',
+                    welcomeMessage: '¡Hola! 👋 Soy el nuevo asistente de GeekWay con iconos mejorados. ¿En qué puedo ayudarte?'
+                });
+
+                addResult('✅ Widget inicializado con nuevos iconos', 'success');
+                addResult('🎯 ¡Haz clic en el botón púrpura para ver las mejoras visuales!', 'feature');
+                addResult('🤖 Observa los nuevos iconos de bot y usuario en la conversación', 'feature');
+                addResult('💬 Escribe "Hola" para probar la nueva interfaz', 'feature');
+
+            } catch(e) {
+                addResult(`❌ Error al inicializar: ${e.message}`, 'error');
+            }
+        } else {
+            addResult('❌ GeekWayChat no disponible', 'error');
+        }
+    </script>
+</body>
+</html>
