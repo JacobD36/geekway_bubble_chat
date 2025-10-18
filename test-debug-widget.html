@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔧 Debug Test - GeekWay Widget Versions</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            padding: 20px; 
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             margin: 0;
@@ -20,11 +20,11 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .status { 
-            padding: 15px; 
-            margin: 15px 0; 
-            border-radius: 10px; 
-            font-weight: bold; 
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
         }
         .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
         .error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
@@ -69,14 +69,14 @@
 <body>
     <div class="container">
         <h1>🔧 Debug Test - GeekWay Chat Widget</h1>
-        
+
         <div class="comparison-grid">
             <div class="version-box vanilla-box">
-                <strong>✅ VANILLA JS v2.1.0</strong><br>
+                <strong>✅ VANILLA JS v2.2.2</strong><br>
                 • 12KB minificado<br>
                 • Sin dependencias<br>
                 • Universal compatibility<br>
-                • ✅ FUNCIONA
+                • ✅ ESTABLE Y FUNCIONAL
             </div>
             <div class="version-box angular-box">
                 <strong>🔧 ANGULAR ELEMENTS v2.2.1</strong><br>
@@ -89,7 +89,7 @@
 
         <div class="test-section">
             <h3>🧪 Tests de Carga</h3>
-            <button class="button btn-vanilla" onclick="testVanillaJS()">Test Vanilla JS v2.1.0</button>
+            <button class="button btn-vanilla" onclick="testVanillaJS()">Test Vanilla JS v2.2.2</button>
             <button class="button btn-angular" onclick="testAngularElements()">Test Angular Elements v2.2.1</button>
             <button class="button btn-clear" onclick="clearWidget()">Limpiar Widget</button>
         </div>
@@ -99,7 +99,7 @@
 
     <script>
         const results = document.getElementById('results');
-        
+
         function addResult(message, type = 'info') {
             const div = document.createElement('div');
             div.className = `status ${type}`;
@@ -107,33 +107,31 @@
             results.appendChild(div);
             div.scrollIntoView({ behavior: 'smooth' });
         }
-        
+
         function clearWidget() {
             // Limpiar widgets existentes
             const widgets = document.querySelectorAll('.geekway-chat-widget, geekway-chat-bubble');
             widgets.forEach(widget => widget.remove());
-            
+
             // Limpiar scripts
             const scripts = document.querySelectorAll('script[src*="geekway-chat-widget"]');
             scripts.forEach(script => script.remove());
-            
+
             // Limpiar variables globales
             delete window.GeekWayChat;
-            
+
             addResult('🧹 Widget limpiado correctamente', 'info');
         }
-        
+
         function testVanillaJS() {
             clearWidget();
-            
-            addResult('🔄 Cargando Vanilla JS v2.1.0...', 'info');
+
+            addResult('🔄 Cargando Vanilla JS v2.2.2...', 'info');
             
             const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.min.js';
-            
-            script.onload = function() {
+            script.src = 'https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.2.2/dist/widget/geekway-chat-widget.min.js';            script.onload = function() {
                 addResult('✅ Script Vanilla JS cargado', 'success');
-                
+
                 setTimeout(() => {
                     if (typeof window.GeekWayChat !== 'undefined') {
                         try {
@@ -141,9 +139,9 @@
                                 apiKey: 'debug-vanilla-test',
                                 theme: 'purple',
                                 position: 'bottom-right',
-                                welcomeMessage: '✅ Vanilla JS v2.1.0 funcionando correctamente con iconos!'
+                                welcomeMessage: '✅ Vanilla JS v2.2.2 funcionando correctamente con iconos!'
                             });
-                            
+
                             addResult('🎉 Vanilla JS inicializado correctamente!', 'success');
                         } catch (error) {
                             addResult(`❌ Error al inicializar Vanilla JS: ${error.message}`, 'error');
@@ -153,25 +151,25 @@
                     }
                 }, 500);
             };
-            
+
             script.onerror = function() {
                 addResult('❌ Error al cargar script Vanilla JS', 'error');
             };
-            
+
             document.head.appendChild(script);
         }
-        
+
         function testAngularElements() {
             clearWidget();
-            
+
             addResult('🔄 Cargando Angular Elements v2.2.1...', 'warning');
-            
+
             const script = document.createElement('script');
             script.src = 'https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.2.1/dist/widget/geekway-chat-widget.min.js';
-            
+
             script.onload = function() {
                 addResult('⚠️ Script Angular Elements cargado', 'warning');
-                
+
                 setTimeout(() => {
                     // Test 1: GeekWayChat API
                     if (typeof window.GeekWayChat !== 'undefined') {
@@ -182,7 +180,7 @@
                                 position: 'bottom-right',
                                 welcomeMessage: 'Angular Elements test'
                             });
-                            
+
                             addResult('✅ Angular Elements API funcionando', 'success');
                         } catch (error) {
                             addResult(`❌ Error en Angular Elements API: ${error.message}`, 'error');
@@ -190,7 +188,7 @@
                     } else {
                         addResult('❌ GeekWayChat no disponible en Angular Elements', 'error');
                     }
-                    
+
                     // Test 2: Custom Element
                     if (customElements.get('geekway-chat-bubble')) {
                         try {
@@ -198,7 +196,7 @@
                             widget.setAttribute('position', 'bottom-left');
                             widget.setAttribute('theme', 'purple');
                             document.body.appendChild(widget);
-                            
+
                             addResult('✅ Custom Element funcionando', 'success');
                         } catch (error) {
                             addResult(`❌ Error en Custom Element: ${error.message}`, 'error');
@@ -208,17 +206,17 @@
                     }
                 }, 1000);
             };
-            
+
             script.onerror = function() {
                 addResult('❌ Error al cargar script Angular Elements', 'error');
             };
-            
+
             document.head.appendChild(script);
         }
-        
+
         // Test inicial
         addResult('🚀 Debug Test inicializado - Prueba ambas versiones', 'info');
-        addResult('💡 Recomendación: Usa Vanilla JS v2.1.0 que funciona perfectamente', 'success');
+        addResult('💡 Recomendación: Usa Vanilla JS v2.2.2 que funciona perfectamente', 'success');
     </script>
 </body>
 </html>
