@@ -33,31 +33,33 @@
     <!-- Messages Area -->
     <div class="flex-1 p-4 overflow-y-auto space-y-4 bg-gray-50 messages-container custom-scrollbar">
       @for (message of messages(); track message.id) {
-        <div class="flex items-start space-x-3">
-          @if (message.sender === 'bot') {
-            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-              <span class="text-white text-xs">🤖</span>
+        @if (message.sender === 'bot') {
+          <!-- Mensaje del Bot - Alineado a la izquierda -->
+          <div class="flex items-end space-x-2 justify-start">
+            <div class="message-avatar bot-avatar">
+              <svg class="avatar-icon bot-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"/>
+                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z"/>
+                <path d="M12 16C13.1 16 14 16.9 14 18C14 19.1 13.1 20 12 20C10.9 20 10 19.1 10 18C10 16.9 10.9 16 12 16Z"/>
+              </svg>
             </div>
-            <div class="flex-1">
-              <p class="text-xs text-gray-500 mb-1">GeekWay</p>
-              <div class="inline-block bg-purple-400 text-white p-3 rounded-2xl rounded-tl-sm max-w-xs">
-                <p class="text-sm">{{ message.text }}</p>
-              </div>
+            <div class="message-content bot-message">
+              <p class="text-sm">{{ message.text }}</p>
             </div>
-          } @else {
-            <div class="flex-1 flex justify-end">
-              <div class="text-right">
-                <p class="text-xs text-gray-500 mb-1">Tú</p>
-                <div class="inline-block bg-blue-500 text-white p-3 rounded-2xl rounded-tr-sm max-w-xs">
-                  <p class="text-sm">{{ message.text }}</p>
-                </div>
-              </div>
+          </div>
+        } @else {
+          <!-- Mensaje del Usuario - Alineado a la derecha -->
+          <div class="flex items-end space-x-2 justify-end">
+            <div class="message-content user-message">
+              <p class="text-sm">{{ message.text }}</p>
             </div>
-            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-              <span class="text-white text-xs">👤</span>
+            <div class="message-avatar user-avatar">
+              <svg class="avatar-icon user-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
             </div>
-          }
-        </div>
+          </div>
+        }
       }
     </div>
 

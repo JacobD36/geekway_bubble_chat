@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Test Angular Elements Mejorado - GeekWay Chat</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 15px; 
+            margin: 15px 0; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            border-left: 4px solid #8b5cf6;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .feature { background: #fff3cd; color: #856404; }
+        .warning { background: #ffeeba; color: #856404; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .version-box {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .vanilla-box { background: #dcfce7; border: 2px solid #22c55e; }
+        .angular-box { background: #dbeafe; border: 2px solid #3b82f6; }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-item {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Test Angular Elements - Versión Mejorada</h1>
+        
+        <div class="comparison-grid">
+            <div class="version-box vanilla-box">
+                <strong>✅ VANILLA JS v2.1.0</strong><br>
+                • Iconos SVG ✨<br>
+                • Alineación correcta ➡️⬅️<br>
+                • 12KB minificado 📦<br>
+                • Sin dependencias 🚀
+            </div>
+            <div class="version-box angular-box">
+                <strong>🔄 ANGULAR ELEMENTS v2.2.0</strong><br>
+                • Iconos SVG sincronizados ✨<br>
+                • Alineación actualizada ➡️⬅️<br>
+                • ~190KB (Angular completo) 📦<br>
+                • Framework incluido ⚙️
+            </div>
+        </div>
+
+        <div class="status warning">
+            <strong>⚠️ Nota importante:</strong> Esta es la versión Angular Elements con todas las mejoras visuales sincronizadas desde la versión Vanilla JS.
+        </div>
+
+        <div class="feature-list">
+            <div class="feature-item">
+                <strong>🎨 Iconos SVG Sincronizados</strong><br>
+                Bot y usuario con avatares distintivos
+            </div>
+            <div class="feature-item">
+                <strong>↔️ Alineación Estándar</strong><br>
+                Usuario a la derecha, bot a la izquierda
+            </div>
+            <div class="feature-item">
+                <strong>🎯 Background Mejorado</strong><br>
+                Bot con fondo gris más visible
+            </div>
+            <div class="feature-item">
+                <strong>🔧 Angular Elements</strong><br>
+                Componente web encapsulado
+            </div>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+        
+        addResult('✅ Página cargada correctamente', 'success');
+        addResult('⏳ Cargando Angular Elements mejorado...', 'info');
+    </script>
+    
+    <!-- Angular Elements con mejoras -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+    
+    <script>
+        setTimeout(() => {
+            addResult('📡 Angular Elements cargado', 'info');
+            
+            // Verificar si el elemento personalizado está disponible
+            if (customElements.get('chat-bubble')) {
+                addResult('✅ Custom Element "chat-bubble" registrado correctamente!', 'success');
+                
+                // Crear el elemento
+                const chatBubble = document.createElement('chat-bubble');
+                chatBubble.setAttribute('position', 'bottom-right');
+                chatBubble.setAttribute('theme', 'purple');
+                document.body.appendChild(chatBubble);
+                
+                addResult('✅ Widget Angular Elements inicializado', 'success');
+                addResult('🎯 ¡Observa el widget en la esquina inferior derecha!', 'feature');
+                addResult('💬 Compara con la versión Vanilla JS', 'feature');
+                addResult('🎨 Verifica iconos SVG y alineación mejorada', 'feature');
+                
+            } else {
+                addResult('❌ Custom Element no disponible - verificar build', 'warning');
+                
+                // Intentar registrar manualmente (backup)
+                addResult('🔄 Intentando cargar widget de respaldo...', 'info');
+                
+                if (typeof window.GeekWayChat !== 'undefined') {
+                    window.GeekWayChat.init({
+                        apiKey: 'demo-angular-v2.2.0',
+                        theme: 'purple',
+                        position: 'bottom-right',
+                        welcomeMessage: '¡Hola! Soy la versión Angular Elements con mejoras visuales sincronizadas.'
+                    });
+                    addResult('✅ Widget de respaldo cargado (Vanilla JS)', 'success');
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

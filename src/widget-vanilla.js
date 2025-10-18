@@ -346,6 +346,8 @@ class GeekWayChat {
         overflow-y: auto;
         background: #f9fafb;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        display: flex;
+        flex-direction: column;
       }
 
       .message {
@@ -357,11 +359,14 @@ class GeekWayChat {
 
       .message.bot {
         justify-content: flex-start;
+        align-self: flex-start;
       }
 
       .message.user {
         justify-content: flex-end;
+        align-self: flex-end;
         flex-direction: row-reverse;
+        margin-left: auto;
       }
 
       .message-avatar {
@@ -410,10 +415,11 @@ class GeekWayChat {
       }
 
       .message.bot .message-content {
-        background: #f3f4f6;
-        color: #374151;
+        background: #e5e7eb;
+        color: #1f2937;
         border-bottom-left-radius: 4px;
         margin-left: 0;
+        border: 1px solid #d1d5db;
       }
 
       .message.user .message-content {
@@ -421,6 +427,7 @@ class GeekWayChat {
         color: white;
         border-bottom-right-radius: 4px;
         margin-right: 0;
+        margin-left: auto;
       }
 
       .chat-input {

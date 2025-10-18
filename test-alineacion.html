@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Test Alineación Chat - GeekWay Widget</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            border-left: 4px solid #8b5cf6;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .feature { background: #fff3cd; color: #856404; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .demo-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .improvement-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .improvement-item {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .comparison-box {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .before { background: #fee2e2; border: 2px solid #ef4444; }
+        .after { background: #dcfce7; border: 2px solid #22c55e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Test de Alineación Mejorada - GeekWay Chat</h1>
+
+        <div class="demo-section">
+            <h3>🔧 Mejoras de UX Implementadas:</h3>
+            <div class="improvement-list">
+                <div class="improvement-item">
+                    <strong>➡️ Mensajes del Usuario</strong><br>
+                    Ahora alineados a la derecha (como WhatsApp/Telegram)
+                </div>
+                <div class="improvement-item">
+                    <strong>⬅️ Mensajes del Bot</strong><br>
+                    Alineados a la izquierda con mejor visibilidad
+                </div>
+                <div class="improvement-item">
+                    <strong>🎨 Background Mejorado</strong><br>
+                    Bot con fondo gris más notorio y borde sutil
+                </div>
+                <div class="improvement-item">
+                    <strong>📱 Layout Responsivo</strong><br>
+                    Diseño estándar de aplicaciones de chat modernas
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>📊 Comparación Visual:</h3>
+            <div class="before-after">
+                <div class="comparison-box before">
+                    <strong>❌ ANTES</strong><br>
+                    • Usuario a la izquierda<br>
+                    • Bot poco visible<br>
+                    • Confuso quién habla
+                </div>
+                <div class="comparison-box after">
+                    <strong>✅ AHORA</strong><br>
+                    • Usuario a la derecha<br>
+                    • Bot con fondo distintivo<br>
+                    • UX estándar de chat
+                </div>
+            </div>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+
+        addResult('✅ Página cargada correctamente', 'success');
+        addResult('⏳ Cargando widget con mejoras de alineación...', 'info');
+    </script>
+
+    <!-- Widget con mejoras de alineación -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+
+    <script>
+        addResult('📡 Widget cargado, verificando mejoras...', 'info');
+
+        if (typeof window.GeekWayChat !== 'undefined') {
+            addResult('✅ GeekWayChat disponible - Versión con alineación mejorada!', 'success');
+
+            try {
+                const result = window.GeekWayChat.init({
+                    apiKey: 'demo-alineacion-v2.1.1',
+                    theme: 'purple',
+                    position: 'bottom-right',
+                    welcomeMessage: '¡Hola! 👋 Soy el asistente de GeekWay. Ahora mis mensajes están mejor alineados y son más visibles. ¡Escribe algo para probarlo!'
+                });
+
+                addResult('✅ Widget inicializado con nueva alineación', 'success');
+                addResult('🎯 ¡Abre el chat y observa las mejoras!', 'feature');
+                addResult('💬 Bot: mensajes a la izquierda con fondo gris más visible', 'feature');
+                addResult('👤 Usuario: mensajes a la derecha (estilo WhatsApp)', 'feature');
+                addResult('🔄 Prueba escribir "Hola" para ver la diferencia', 'feature');
+
+            } catch(e) {
+                addResult(`❌ Error al inicializar: ${e.message}`, 'error');
+            }
+        } else {
+            addResult('❌ GeekWayChat no disponible', 'error');
+        }
+    </script>
+</body>
+</html>
