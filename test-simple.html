@@ -19,14 +19,14 @@
         .error { background: #f8d7da; color: #721c24; }
         .info { background: #d1ecf1; color: #0c5460; }
     </style>
-    
+
     <!-- CSS del widget -->
     <link rel="stylesheet" href="dist/widget/geekway-chat-widget.min.css">
 </head>
 <body>
     <h1>🔍 Test Simple - Diagnóstico GeekWayChat</h1>
     <div id="results"></div>
-    
+
     <h2>Información:</h2>
     <ul>
         <li>Archivo: dist/widget/geekway-chat-widget.min.js</li>
@@ -35,27 +35,27 @@
 
     <!-- JavaScript del widget -->
     <script src="dist/widget/geekway-chat-widget.min.js"></script>
-    
+
     <script>
         const results = document.getElementById('results');
-        
+
         function addResult(message, type = 'info') {
             const div = document.createElement('div');
             div.className = `test-result ${type}`;
             div.innerHTML = message;
             results.appendChild(div);
         }
-        
+
         // Test INMEDIATO - Se ejecuta al cargar el script
         console.log('🧪 Ejecutando test inmediato...');
-        
+
         if (typeof window.GeekWayChat !== 'undefined') {
             addResult('✅ SUCCESS: GeekWayChat está disponible!', 'success');
             console.log('✅ GeekWayChat:', window.GeekWayChat);
-            
+
             if (typeof window.GeekWayChat.init === 'function') {
                 addResult('✅ SUCCESS: Método init() disponible', 'success');
-                
+
                 try {
                     window.GeekWayChat.init({
                         apiKey: 'test-simple',
@@ -73,12 +73,12 @@
         } else {
             addResult('❌ ERROR: GeekWayChat NO está disponible', 'error');
             console.error('❌ window.GeekWayChat no definido');
-            
+
             // Información adicional de debug
             addResult('🔍 DEBUG: Verificando window object...', 'info');
             console.log('Window keys:', Object.keys(window).filter(k => k.toLowerCase().includes('geek')));
         }
-        
+
         // Test con setTimeout para ver si aparece después
         setTimeout(() => {
             addResult('⏰ Test después de 2 segundos:', 'info');

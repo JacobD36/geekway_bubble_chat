@@ -1,14 +1,18 @@
 // GeekWay Chat Widget - Versión Vanilla JavaScript
-// Completamente independiente sin dependencias
+// Completamente independiente sin dependencias de Angular
 
 class GeekWayChat {
-  constructor() {
-    this.widget = null;
-    this.isOpen = false;
-    this.messages = [];
-  }
+  private static instance: GeekWayChat | null = null;
+  private widget: HTMLElement | null = null;
+  private isOpen = false;
+  private messages: Array<{id: number, text: string, sender: 'bot' | 'user', timestamp: Date}> = [];
 
-  static init(config) {
+  static init(config: {
+    apiKey: string;
+    theme?: 'purple' | 'blue';
+    position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+    welcomeMessage?: string;
+  }) {
     console.log('🚀 GeekWayChat.init() - Vanilla JS version', config);
 
     // Destruir instancia anterior
@@ -23,11 +27,11 @@ class GeekWayChat {
     return GeekWayChat.instance;
   }
 
-  createWidget(config) {
+  private createWidget(config: any) {
     const theme = config.theme || 'purple';
     const position = config.position || 'bottom-right';
     const welcomeMessage = config.welcomeMessage || '¡Hola! Soy el asistente de GeekWay. ¿En qué puedo ayudarte?';
-    
+
     // Inicializar mensajes
     this.messages = [{
       id: 1,
@@ -38,12 +42,12 @@ class GeekWayChat {
 
     // Crear estilos CSS
     this.injectStyles();
-    
+
     // Crear el widget HTML
     this.widget = document.createElement('div');
-    this.widget.className = `geekway-chat-widget ${this.getPositionClass(position)}`;
+    this.widget.className = 'geekway-chat-widget';
     this.widget.innerHTML = `
-      <button class="chat-button">
+      <button class="chat-button ${this.getPositionClass(position)}">
         <svg class="chat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
@@ -51,8 +55,8 @@ class GeekWayChat {
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
-      
-      <div class="chat-window hidden">
+
+      <div class="chat-window hidden ${this.getPositionClass(position)}">
         <div class="chat-header">
           <h3>GeekWay Chat</h3>
         </div>
@@ -69,15 +73,17 @@ class GeekWayChat {
         </div>
       </div>
     `;
-    
+
     // Agregar al DOM
     document.body.appendChild(this.widget);
-    
+
     // Configurar eventos
     this.setupEvents();
-    
-    console.log('✅ GeekWay Chat Widget creado (Vanilla JS)', {position: position, class: this.getPositionClass(position)});
-  }  getPositionClass(position) {
+
+    console.log('✅ GeekWay Chat Widget creado (Vanilla JS)');
+  }
+
+  private getPositionClass(position: string): string {
     switch (position) {
       case 'bottom-left': return 'position-bottom-left';
       case 'top-right': return 'position-top-right';
@@ -86,7 +92,7 @@ class GeekWayChat {
     }
   }
 
-  renderMessages() {
+  private renderMessages(): string {
     return this.messages.map(msg => `
       <div class="message ${msg.sender}">
         <div class="message-content">
@@ -96,15 +102,15 @@ class GeekWayChat {
     `).join('');
   }
 
-  setupEvents() {
+  private setupEvents() {
     if (!this.widget) return;
 
-    const button = this.widget.querySelector('.chat-button');
-    const chatWindow = this.widget.querySelector('.chat-window');
-    const messageInput = this.widget.querySelector('#message-input');
-    const sendButton = this.widget.querySelector('#send-button');
-    const chatIcon = this.widget.querySelector('.chat-icon');
-    const closeIcon = this.widget.querySelector('.close-icon');
+    const button = this.widget.querySelector('.chat-button') as HTMLElement;
+    const chatWindow = this.widget.querySelector('.chat-window') as HTMLElement;
+    const messageInput = this.widget.querySelector('#message-input') as HTMLInputElement;
+    const sendButton = this.widget.querySelector('#send-button') as HTMLElement;
+    const chatIcon = this.widget.querySelector('.chat-icon') as HTMLElement;
+    const closeIcon = this.widget.querySelector('.close-icon') as HTMLElement;
 
     // Toggle chat
     button.addEventListener('click', () => {
@@ -170,21 +176,21 @@ class GeekWayChat {
     });
   }
 
-  updateMessages() {
+  private updateMessages() {
     const messagesContainer = this.widget?.querySelector('#chat-messages');
     if (messagesContainer) {
       messagesContainer.innerHTML = this.renderMessages();
     }
   }
 
-  scrollToBottom() {
+  private scrollToBottom() {
     const messagesContainer = this.widget?.querySelector('#chat-messages');
     if (messagesContainer) {
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
   }
 
-  injectStyles() {
+  private injectStyles() {
     if (document.getElementById('geekway-chat-styles')) return;
 
     const style = document.createElement('style');
@@ -195,7 +201,7 @@ class GeekWayChat {
         margin: 0;
         padding: 0;
       }
-      
+
       .chat-button {
         position: fixed;
         width: 56px;
@@ -211,18 +217,18 @@ class GeekWayChat {
         z-index: 9999;
         transition: all 0.3s ease;
       }
-      
+
       .chat-button:hover {
         background: #7c3aed;
         transform: scale(1.1);
       }
-      
+
       .chat-button svg {
         width: 24px;
         height: 24px;
         color: white;
       }
-      
+
       .chat-window {
         position: fixed;
         width: 384px;
@@ -235,89 +241,45 @@ class GeekWayChat {
         flex-direction: column;
         overflow: hidden;
         transition: all 0.3s ease;
-        animation: slideUp 0.3s ease-out;
       }
-      
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px) scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-      
+
       .chat-window.hidden {
         display: none;
       }
-      
-      /* POSICIONAMIENTO BOTTOM-RIGHT (por defecto) */
-      .geekway-chat-widget .position-bottom-right .chat-button,
-      .geekway-chat-widget.position-bottom-right .chat-button {
+
+      .position-bottom-right .chat-button {
         bottom: 24px;
         right: 24px;
       }
-      
-      .geekway-chat-widget .position-bottom-right .chat-window,
-      .geekway-chat-widget.position-bottom-right .chat-window {
+
+      .position-bottom-right .chat-window {
         bottom: 96px;
         right: 24px;
       }
-      
-      /* POSICIONAMIENTO BOTTOM-LEFT */
-      .geekway-chat-widget .position-bottom-left .chat-button,
-      .geekway-chat-widget.position-bottom-left .chat-button {
+
+      .position-bottom-left .chat-button {
         bottom: 24px;
         left: 24px;
       }
-      
-      .geekway-chat-widget .position-bottom-left .chat-window,
-      .geekway-chat-widget.position-bottom-left .chat-window {
+
+      .position-bottom-left .chat-window {
         bottom: 96px;
         left: 24px;
       }
-      
-      /* POSICIONAMIENTO TOP-RIGHT */
-      .geekway-chat-widget .position-top-right .chat-button,
-      .geekway-chat-widget.position-top-right .chat-button {
-        top: 24px;
-        right: 24px;
-      }
-      
-      .geekway-chat-widget .position-top-right .chat-window,
-      .geekway-chat-widget.position-top-right .chat-window {
-        top: 96px;
-        right: 24px;
-      }
-      
-      /* POSICIONAMIENTO TOP-LEFT */
-      .geekway-chat-widget .position-top-left .chat-button,
-      .geekway-chat-widget.position-top-left .chat-button {
-        top: 24px;
-        left: 24px;
-      }
-      
-      .geekway-chat-widget .position-top-left .chat-window,
-      .geekway-chat-widget.position-top-left .chat-window {
-        top: 96px;
-        left: 24px;
-      }
-      
+
       .chat-header {
         background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         color: white;
         padding: 16px;
         text-align: center;
       }
-      
+
       .chat-header h3 {
         font-size: 18px;
         font-weight: bold;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
-      
+
       .chat-messages {
         flex: 1;
         padding: 16px;
@@ -325,20 +287,20 @@ class GeekWayChat {
         background: #f9fafb;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
-      
+
       .message {
         margin-bottom: 16px;
         display: flex;
       }
-      
+
       .message.bot {
         justify-content: flex-start;
       }
-      
+
       .message.user {
         justify-content: flex-end;
       }
-      
+
       .message-content {
         max-width: 80%;
         padding: 12px 16px;
@@ -346,19 +308,19 @@ class GeekWayChat {
         font-size: 14px;
         line-height: 1.4;
       }
-      
+
       .message.bot .message-content {
         background: #8b5cf6;
         color: white;
         border-bottom-left-radius: 4px;
       }
-      
+
       .message.user .message-content {
         background: #3b82f6;
         color: white;
         border-bottom-right-radius: 4px;
       }
-      
+
       .chat-input {
         display: flex;
         padding: 16px;
@@ -366,7 +328,7 @@ class GeekWayChat {
         border-top: 1px solid #e5e7eb;
         gap: 8px;
       }
-      
+
       #message-input {
         flex: 1;
         padding: 12px 16px;
@@ -376,12 +338,12 @@ class GeekWayChat {
         font-size: 14px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
-      
+
       #message-input:focus {
         border-color: #8b5cf6;
         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
       }
-      
+
       #send-button {
         width: 40px;
         height: 40px;
@@ -394,21 +356,21 @@ class GeekWayChat {
         cursor: pointer;
         transition: background 0.2s ease;
       }
-      
+
       #send-button:hover {
         background: #7c3aed;
       }
-      
+
       #send-button svg {
         width: 20px;
         height: 20px;
         color: white;
       }
-      
+
       .hidden {
         display: none !important;
       }
-      
+
       @media (max-width: 640px) {
         .chat-window {
           width: calc(100vw - 32px);
@@ -419,9 +381,11 @@ class GeekWayChat {
         }
       }
     `;
-    
+
     document.head.appendChild(style);
-  }  destroy() {
+  }
+
+  destroy() {
     if (this.widget) {
       this.widget.remove();
       this.widget = null;
@@ -446,11 +410,8 @@ class GeekWayChat {
   }
 }
 
-// Instancia estática
-GeekWayChat.instance = null;
-
 // Exposición global INMEDIATA
-window.GeekWayChat = GeekWayChat;
+(window as any).GeekWayChat = GeekWayChat;
 
 console.log('🌍 GeekWayChat (Vanilla JS) disponible globalmente');
-console.log('✅ Sin dependencias - Compatibilidad universal');
+console.log('✅ Sin dependencias de Angular - Compatibilidad universal');

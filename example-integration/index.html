@@ -152,7 +152,7 @@
     </style>
 
     <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 1: CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.5.0/dist/widget/geekway-chat-widget.min.css">
 </head>
 <body>
     <div class="container">
@@ -234,13 +234,20 @@
             <p>&copy; 2025 TechCorp Solutions. Todos los derechos reservados.</p>
             <p>Sitio web de demostración para mostrar la integración del Widget GeekWay Chat</p>
         </footer>
+
+        <geekway-chat-widget
+            api-key="tu-api-key"
+            theme="purple"
+            position="bottom-right"
+            welcome-message="¡Hola! ¿Cómo puedo ayudarte?">
+        </geekway-chat-widget>
     </div>
 
     <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 2: JAVASCRIPT -->
-    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.2.0/dist/widget/geekway-chat-widget.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v1.5.0/dist/widget/geekway-chat-widget.min.js"></script>
 
     <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 3: INICIALIZACIÓN -->
-    <script>
+    <!--<script>
         // Esperar a que el DOM esté completamente cargado
         document.addEventListener('DOMContentLoaded', function() {
             // Inicializar el widget GeekWay Chat
@@ -259,6 +266,6 @@
             console.log('Cambiando configuración del widget:', config);
             // Aquí podrías implementar lógica para cambiar la configuración dinámicamente
         }
-    </script>
+    </script>-->
 </body>
 </html>

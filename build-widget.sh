@@ -9,9 +9,9 @@ mkdir -p dist/widget
 echo "📦 Haciendo backup de main.ts..."
 cp src/main.ts src/main.ts.backup
 
-# Copiar el widget-direct.ts como main.ts temporalmente
-echo "🔄 Usando widget-direct.ts como entrada..."
-cp src/widget-direct.ts src/main.ts
+# Copiar el widget-vanilla.ts como main.ts temporalmente
+echo "🔄 Usando widget-vanilla.ts como entrada..."
+cp src/widget-vanilla.ts src/main.ts
 
 # Build de la aplicación Angular
 echo "⚙️ Ejecutando ng build..."
