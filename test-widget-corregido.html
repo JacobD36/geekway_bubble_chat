@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Test GeekWay Chat Widget CORREGIDO</title>
+    
+    <!-- GeekWay Chat Widget CSS -->
+    <link rel="stylesheet" href="dist/widget/geekway-chat-widget.min.css">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f2f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test GeekWay Chat Widget - VERSIÓN CORREGIDA</h1>
+        
+        <div class="test-section">
+            <h2>🔍 Verificaciones Automáticas</h2>
+            <div id="test-results"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📋 Información del Test</h2>
+            <ul>
+                <li><strong>Archivos locales:</strong> dist/widget/geekway-chat-widget.min.*</li>
+                <li><strong>Objetivo:</strong> Verificar que GeekWayChat esté disponible inmediatamente</li>
+                <li><strong>Corrección aplicada:</strong> GeekWayChat se expone globalmente antes de la inicialización de Angular</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎮 Configuración del Test</h2>
+            <pre><code>GeekWayChat.init({
+    apiKey: 'test-corregido-v1.4.0',
+    theme: 'purple',
+    position: 'bottom-right',
+    welcomeMessage: '¡Hola! Widget corregido funcionando 🎉'
+});</code></pre>
+        </div>
+        
+        <div class="test-section">
+            <h2>📊 Logs del Sistema</h2>
+            <div id="console-logs" style="background: #f8f9fa; padding: 10px; border-radius: 3px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <!-- GeekWay Chat Widget JavaScript LOCAL -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+    
+    <script>
+        const results = document.getElementById('test-results');
+        const logsDiv = document.getElementById('console-logs');
+        
+        // Capturar logs de consola
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        function addLog(message, type = 'log') {
+            const time = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? '#dc3545' : '#007bff';
+            logEntry.innerHTML = `[${time}] ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+        
+        function runTests() {
+            console.log('🧪 Iniciando tests del widget corregido...');
+            
+            // Test 1: Verificar disponibilidad inmediata de GeekWayChat
+            const startTime = performance.now();
+            
+            if (typeof window.GeekWayChat !== 'undefined') {
+                const loadTime = (performance.now() - startTime).toFixed(2);
+                addResult(`✅ GeekWayChat disponible inmediatamente (${loadTime}ms)`, 'success');
+                console.log('✅ GeekWayChat encontrado:', window.GeekWayChat);
+                
+                // Test 2: Verificar método init
+                if (typeof window.GeekWayChat.init === 'function') {
+                    addResult('✅ Método GeekWayChat.init() disponible', 'success');
+                    
+                    // Test 3: Inicializar widget
+                    try {
+                        const widget = window.GeekWayChat.init({
+                            apiKey: 'test-corregido-v1.4.0',
+                            theme: 'purple',
+                            position: 'bottom-right',
+                            welcomeMessage: '¡Hola! Widget corregido funcionando 🎉'
+                        });
+                        
+                        addResult('✅ Widget inicializado sin errores', 'success');
+                        console.log('✅ Widget inicializado:', widget);
+                        
+                        // Test 4: Verificar métodos adicionales
+                        if (typeof widget.show === 'function' && typeof widget.hide === 'function') {
+                            addResult('✅ Métodos show() y hide() disponibles', 'success');
+                        } else {
+                            addResult('⚠️ Métodos show() y hide() no encontrados', 'info');
+                        }
+                        
+                    } catch(e) {
+                        addResult('❌ Error al inicializar widget: ' + e.message, 'error');
+                        console.error('❌ Error inicializando:', e);
+                    }
+                } else {
+                    addResult('❌ Método GeekWayChat.init() NO disponible', 'error');
+                }
+            } else {
+                addResult('❌ GeekWayChat NO está disponible', 'error');
+                console.error('❌ GeekWayChat no encontrado');
+            }
+            
+            // Test 5: Verificar custom element después de un tiempo
+            setTimeout(() => {
+                if (customElements.get('geekway-chat-widget')) {
+                    addResult('✅ Custom element "geekway-chat-widget" registrado', 'success');
+                    
+                    // Test 6: Verificar que el widget se agregó al DOM
+                    const widgetElement = document.querySelector('geekway-chat-widget');
+                    if (widgetElement) {
+                        addResult('✅ Widget agregado al DOM correctamente', 'success');
+                    } else {
+                        addResult('⚠️ Widget no encontrado en el DOM', 'info');
+                    }
+                } else {
+                    addResult('⚠️ Custom element aún no registrado', 'info');
+                }
+            }, 1500);
+        }
+        
+        // Ejecutar tests inmediatamente
+        console.log('🚀 Cargando tests...');
+        runTests();
+        
+        // También ejecutar cuando el DOM esté listo (por si acaso)
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('📄 DOM completamente cargado');
+        });
+    </script>
+</body>
+</html>
