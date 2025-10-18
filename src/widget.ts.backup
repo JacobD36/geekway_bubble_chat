@@ -11,20 +11,8 @@ interface ChatConfig {
   welcomeMessage?: string;
 }
 
-// Inicializar Angular Elements
-createApplication(appConfig).then(appRef => {
-  // Crear el custom element
-  const chatElement = createCustomElement(ChatBubbleComponent, {
-    injector: appRef.injector
-  });
-
-  // Registrar el custom element
-  if (!customElements.get('geekway-chat-widget')) {
-    customElements.define('geekway-chat-widget', chatElement);
-  }
-
-  // API Global para el widget
-  class GeekWayChat {
+// API Global para el widget - DISPONIBLE INMEDIATAMENTE
+class GeekWayChat {
     private static instance: GeekWayChat | null = null;
     private widget: HTMLElement | null = null;
 

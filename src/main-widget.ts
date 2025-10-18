@@ -14,13 +14,13 @@ createApplication({
   const chatElement = createCustomElement(ChatBubbleComponent, {
     injector: appRef.injector
   });
-  
+
   // Registrar el custom element
   if (!customElements.get('geekway-chat-bubble')) {
     customElements.define('geekway-chat-bubble', chatElement);
     console.log('✅ GeekWay Chat Widget (Angular Elements) registrado correctamente');
   }
-  
+
   // API simple para compatibilidad
   (window as any).GeekWayChat = {
     init: function(config: any = {}) {

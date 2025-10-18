@@ -355,18 +355,19 @@ class GeekWayChat {
         display: flex;
         align-items: flex-end;
         gap: 8px;
+        width: 100%;
       }
 
       .message.bot {
         justify-content: flex-start;
-        align-self: flex-start;
+        flex-direction: row;
       }
 
       .message.user {
         justify-content: flex-end;
-        align-self: flex-end;
         flex-direction: row-reverse;
         margin-left: auto;
+        text-align: right;
       }
 
       .message-avatar {
@@ -419,6 +420,7 @@ class GeekWayChat {
         color: #1f2937;
         border-bottom-left-radius: 4px;
         margin-left: 0;
+        margin-right: auto;
         border: 1px solid #d1d5db;
       }
 
@@ -428,6 +430,7 @@ class GeekWayChat {
         border-bottom-right-radius: 4px;
         margin-right: 0;
         margin-left: auto;
+        text-align: left;
       }
 
       .chat-input {
