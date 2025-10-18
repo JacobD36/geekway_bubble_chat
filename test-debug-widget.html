@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Debug Test - GeekWay Widget Versions</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 15px; 
+            margin: 15px 0; 
+            border-radius: 10px; 
+            font-weight: bold; 
+        }
+        .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+        .warning { background: #fff3cd; color: #856404; border-left: 4px solid #ffc107; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .version-box {
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid;
+        }
+        .vanilla-box { border-color: #22c55e; background: #dcfce7; }
+        .angular-box { border-color: #3b82f6; background: #dbeafe; }
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-vanilla { background: #22c55e; }
+        .btn-angular { background: #3b82f6; }
+        .btn-clear { background: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Debug Test - GeekWay Chat Widget</h1>
+        
+        <div class="comparison-grid">
+            <div class="version-box vanilla-box">
+                <strong>✅ VANILLA JS v2.1.0</strong><br>
+                • 12KB minificado<br>
+                • Sin dependencias<br>
+                • Universal compatibility<br>
+                • ✅ FUNCIONA
+            </div>
+            <div class="version-box angular-box">
+                <strong>🔧 ANGULAR ELEMENTS v2.2.1</strong><br>
+                • 198KB con Angular<br>
+                • Custom Elements<br>
+                • Shadow DOM<br>
+                • ❌ ERRORES
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Tests de Carga</h3>
+            <button class="button btn-vanilla" onclick="testVanillaJS()">Test Vanilla JS v2.1.0</button>
+            <button class="button btn-angular" onclick="testAngularElements()">Test Angular Elements v2.2.1</button>
+            <button class="button btn-clear" onclick="clearWidget()">Limpiar Widget</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+            div.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function clearWidget() {
+            // Limpiar widgets existentes
+            const widgets = document.querySelectorAll('.geekway-chat-widget, geekway-chat-bubble');
+            widgets.forEach(widget => widget.remove());
+            
+            // Limpiar scripts
+            const scripts = document.querySelectorAll('script[src*="geekway-chat-widget"]');
+            scripts.forEach(script => script.remove());
+            
+            // Limpiar variables globales
+            delete window.GeekWayChat;
+            
+            addResult('🧹 Widget limpiado correctamente', 'info');
+        }
+        
+        function testVanillaJS() {
+            clearWidget();
+            
+            addResult('🔄 Cargando Vanilla JS v2.1.0...', 'info');
+            
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.min.js';
+            
+            script.onload = function() {
+                addResult('✅ Script Vanilla JS cargado', 'success');
+                
+                setTimeout(() => {
+                    if (typeof window.GeekWayChat !== 'undefined') {
+                        try {
+                            GeekWayChat.init({
+                                apiKey: 'debug-vanilla-test',
+                                theme: 'purple',
+                                position: 'bottom-right',
+                                welcomeMessage: '✅ Vanilla JS v2.1.0 funcionando correctamente con iconos!'
+                            });
+                            
+                            addResult('🎉 Vanilla JS inicializado correctamente!', 'success');
+                        } catch (error) {
+                            addResult(`❌ Error al inicializar Vanilla JS: ${error.message}`, 'error');
+                        }
+                    } else {
+                        addResult('❌ GeekWayChat no disponible en Vanilla JS', 'error');
+                    }
+                }, 500);
+            };
+            
+            script.onerror = function() {
+                addResult('❌ Error al cargar script Vanilla JS', 'error');
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        function testAngularElements() {
+            clearWidget();
+            
+            addResult('🔄 Cargando Angular Elements v2.2.1...', 'warning');
+            
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.2.1/dist/widget/geekway-chat-widget.min.js';
+            
+            script.onload = function() {
+                addResult('⚠️ Script Angular Elements cargado', 'warning');
+                
+                setTimeout(() => {
+                    // Test 1: GeekWayChat API
+                    if (typeof window.GeekWayChat !== 'undefined') {
+                        try {
+                            GeekWayChat.init({
+                                apiKey: 'debug-angular-test',
+                                theme: 'purple',
+                                position: 'bottom-right',
+                                welcomeMessage: 'Angular Elements test'
+                            });
+                            
+                            addResult('✅ Angular Elements API funcionando', 'success');
+                        } catch (error) {
+                            addResult(`❌ Error en Angular Elements API: ${error.message}`, 'error');
+                        }
+                    } else {
+                        addResult('❌ GeekWayChat no disponible en Angular Elements', 'error');
+                    }
+                    
+                    // Test 2: Custom Element
+                    if (customElements.get('geekway-chat-bubble')) {
+                        try {
+                            const widget = document.createElement('geekway-chat-bubble');
+                            widget.setAttribute('position', 'bottom-left');
+                            widget.setAttribute('theme', 'purple');
+                            document.body.appendChild(widget);
+                            
+                            addResult('✅ Custom Element funcionando', 'success');
+                        } catch (error) {
+                            addResult(`❌ Error en Custom Element: ${error.message}`, 'error');
+                        }
+                    } else {
+                        addResult('❌ Custom Element no registrado', 'error');
+                    }
+                }, 1000);
+            };
+            
+            script.onerror = function() {
+                addResult('❌ Error al cargar script Angular Elements', 'error');
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        // Test inicial
+        addResult('🚀 Debug Test inicializado - Prueba ambas versiones', 'info');
+        addResult('💡 Recomendación: Usa Vanilla JS v2.1.0 que funciona perfectamente', 'success');
+    </script>
+</body>
+</html>

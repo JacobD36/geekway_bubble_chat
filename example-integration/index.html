@@ -151,8 +151,8 @@
         }
     </style>
 
-    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 1: CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.0.0/dist/widget/geekway-chat-widget.min.css">
+    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - CSS (Opcional - estilos incluidos en JS) -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.css"> -->
 </head>
 <body>
     <div class="container">
@@ -162,7 +162,7 @@
         </header>
 
         <div class="demo-notice">
-            🎯 SITIO WEB DE DEMOSTRACIÓN - Widget GeekWay Chat integrado
+            🎯 SITIO WEB DE DEMOSTRACIÓN - Widget GeekWay Chat integrado (Vanilla JS v2.1.0)
         </div>
 
         <div class="widget-info">
@@ -236,23 +236,29 @@
         </footer>
     </div>
 
-    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 2: JAVASCRIPT -->
-    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.0.0/dist/widget/geekway-chat-widget.min.js"></script>
+    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - VANILLA JS v2.1.0 (FUNCIONAL) -->
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.1.0/dist/widget/geekway-chat-widget.min.js"></script>
 
-    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - PASO 3: INICIALIZACIÓN -->
+    <!-- 🎯 INICIALIZACIÓN DEL WIDGET -->
     <script>
-        // Esperar a que el DOM esté completamente cargado
-        document.addEventListener('DOMContentLoaded', function() {
+        // Verificar que el widget se cargue correctamente
+        if (typeof window.GeekWayChat !== 'undefined') {
             // Inicializar el widget GeekWay Chat
-            GeekWayChat.init({
-                apiKey: 'demo-api-key-techcorp-2025',
-                theme: 'purple',
-                position: 'bottom-right',
-                welcomeMessage: '¡Hola! Soy el asistente virtual de TechCorp. ¿En qué puedo ayudarte hoy? 😊'
-            });
+            try {
+                GeekWayChat.init({
+                    apiKey: 'demo-api-key-techcorp-2025',
+                    theme: 'purple',
+                    position: 'bottom-right',
+                    welcomeMessage: '¡Hola! Soy el asistente virtual de TechCorp con iconos mejorados. ¿En qué puedo ayudarte hoy? 🤖�'
+                });
 
-            console.log('✅ Widget GeekWay Chat inicializado correctamente');
-        });
+                console.log('✅ Widget GeekWay Chat inicializado correctamente');
+            } catch (error) {
+                console.error('❌ Error al inicializar GeekWay Chat:', error);
+            }
+        } else {
+            console.error('❌ GeekWayChat no está disponible');
+        }
 
         // Función para simular diferentes configuraciones del widget
         function cambiarConfiguracion(config) {
