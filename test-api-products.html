@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - API Response con Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .json-display {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test - Nuevo Formato de Respuesta API</h1>
+        
+        <div class="test-info">
+            <h3>📋 Información del Test</h3>
+            <ul>
+                <li><strong>Objetivo:</strong> Probar el nuevo formato de respuesta con data.message y data.products</li>
+                <li><strong>Versión:</strong> v3.0.4 - Soporte para productos</li>
+                <li><strong>Funcionalidades:</strong> Mensaje del asistente + Lista estética de productos</li>
+            </ul>
+        </div>
+
+        <div class="test-container">
+            <h3>🎯 Controles de Test</h3>
+            <button onclick="initializeWidget()">🚀 Inicializar Widget</button>
+            <button onclick="simulateProductResponse()">📦 Simular Respuesta con Productos</button>
+            <button onclick="simulateMessageOnly()">💬 Simular Solo Mensaje</button>
+        </div>
+
+        <div class="test-container">
+            <h3>📄 Estructura de Respuesta API</h3>
+            <div class="json-display" id="json-structure">
+{
+    "code": 200,
+    "message": "Chat procesado exitosamente",
+    "status": "OK",
+    "data": {
+        "session_id": "faa8fdc0-d458-492e-a554-36e798054c74",
+        "message": "Aquí tienes la información del monitor Samsung más barato: Samsung Monitor 8, con un precio de 2139 PEN.",
+        "products": [
+            {
+                "codigo_producto": "P108",
+                "nombre_producto": "Samsung Monitor 8",
+                "descripcion": "Dispositivo de última generación con tecnología avanzada.",
+                "categoria": "Monitor",
+                "precio": "2139 PEN",
+                "color": "Verde",
+                "proveedor": "Samsung",
+                "estado_producto": "Nuevo",
+                "url_articulo": "https://example.com/SamsungMonitor8"
+            }
+        ]
+    }
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget Script -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+
+    <script>
+        let widgetInstance = null;
+
+        function initializeWidget() {
+            try {
+                if (widgetInstance) {
+                    console.log('⚠️ Widget ya inicializado, reiniciando...');
+                    widgetInstance.destroy();
+                }
+
+                // Inicializar widget con configuración de prueba
+                widgetInstance = new GeekwayChatWidget({
+                    apiKey: 'test-api-key-for-demo',
+                    apiBaseUrl: 'https://api.example.com/api/v1',
+                    assistantName: 'Test Assistant',
+                    welcomeMessage: '¡Hola! Soy un asistente que puede mostrar productos. Prueba enviando un mensaje.'
+                });
+
+                console.log('🚀 Widget inicializado exitosamente');
+            } catch (error) {
+                console.error('❌ Error al inicializar widget:', error);
+            }
+        }
+
+        function simulateProductResponse() {
+            if (!widgetInstance) {
+                alert('Primero inicializa el widget');
+                return;
+            }
+
+            // Simular respuesta completa con productos
+            const mockResponse = {
+                code: 200,
+                message: "Chat procesado exitosamente",
+                status: "OK",
+                data: {
+                    session_id: "test-session-123",
+                    message: "Aquí tienes la información de los productos encontrados:",
+                    products: [
+                        {
+                            codigo_producto: "P108",
+                            nombre_producto: "Samsung Monitor 8K Ultra",
+                            descripcion: "Monitor de última generación con tecnología 8K y panel OLED.",
+                            categoria: "Monitor",
+                            precio: "2139 PEN",
+                            moneda: "PEN",
+                            color: "Verde",
+                            proveedor: "Samsung",
+                            estado_producto: "Nuevo",
+                            etiquetas: "Monitor, 8K, OLED",
+                            url_articulo: "https://example.com/samsung-monitor-8k"
+                        },
+                        {
+                            codigo_producto: "P205",
+                            nombre_producto: "LG UltraWide 34",
+                            descripcion: "Monitor ultrawide perfecto para gaming y productividad.",
+                            categoria: "Monitor",
+                            precio: "1899 PEN",
+                            moneda: "PEN",
+                            color: "Negro",
+                            proveedor: "LG",
+                            estado_producto: "Nuevo",
+                            etiquetas: "Monitor, UltraWide, Gaming",
+                            url_articulo: "https://example.com/lg-ultrawide-34"
+                        }
+                    ]
+                }
+            };
+
+            // Simular procesamiento de respuesta
+            simulateAPIResponse(mockResponse);
+        }
+
+        function simulateMessageOnly() {
+            if (!widgetInstance) {
+                alert('Primero inicializa el widget');
+                return;
+            }
+
+            // Simular respuesta solo con mensaje
+            const mockResponse = {
+                code: 200,
+                message: "Chat procesado exitosamente",
+                status: "OK",
+                data: {
+                    session_id: "test-session-456",
+                    message: "Hola, ¿en qué puedo ayudarte hoy? Puedo buscar productos, responder preguntas y más.",
+                    products: []
+                }
+            };
+
+            simulateAPIResponse(mockResponse);
+        }
+
+        function simulateAPIResponse(mockResponse) {
+            // Agregar mensaje de usuario primero
+            widgetInstance.messages.push({
+                id: Date.now() - 1000,
+                text: 'Mensaje de prueba del usuario',
+                sender: 'user',
+                timestamp: new Date()
+            });
+
+            // Procesar respuesta como lo haría el widget
+            let botResponse = '';
+            
+            if (mockResponse.data.message) {
+                botResponse = mockResponse.data.message;
+                
+                // Si hay productos, agregarlos al mensaje
+                if (mockResponse.data.products && mockResponse.data.products.length > 0) {
+                    botResponse += widgetInstance.formatProductsHTML(mockResponse.data.products);
+                }
+                
+                widgetInstance.messages.push({
+                    id: Date.now(),
+                    text: botResponse,
+                    sender: 'bot',
+                    timestamp: new Date(),
+                    isHTML: true
+                });
+
+                // Actualizar sessionId
+                if (mockResponse.data.session_id) {
+                    widgetInstance.sessionId = mockResponse.data.session_id;
+                    console.log('💾 Session ID actualizado:', widgetInstance.sessionId);
+                }
+            }
+
+            // Actualizar interfaz
+            widgetInstance.updateMessages();
+            widgetInstance.scrollToBottom();
+
+            console.log('✅ Respuesta simulada procesada exitosamente');
+        }
+
+        // Inicialización automática
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📱 Página cargada - Test nuevo formato API');
+            setTimeout(() => {
+                initializeWidget();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

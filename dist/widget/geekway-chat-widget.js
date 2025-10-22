@@ -107,10 +107,17 @@ class GeekWayChat {
           ${msg.sender === 'bot' ? this.getBotIcon() : this.getUserIcon()}
         </div>
         <div class="message-content">
-          <span class="message-text">${msg.text}</span>
+          <span class="message-text">${msg.isHTML ? msg.text : this.escapeHtml(msg.text)}</span>
         </div>
       </div>
     `).join('');
+  }
+
+  // Función para escapar HTML cuando no es contenido HTML intencional
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   getBotIcon() {
@@ -191,40 +198,33 @@ class GeekWayChat {
         this.hideTypingIndicator();
 
         // Agregar respuesta del bot
-        if (response && response.data && response.data.messages) {
-          // Procesar mensajes de la respuesta
-          const assistantMessages = response.data.messages.filter(msg => msg.role === 'assistant');
-
-          if (assistantMessages.length > 0) {
-            const lastMessage = assistantMessages[assistantMessages.length - 1];
-            let botResponse = '';
-
-            // Extraer texto del mensaje
-            if (lastMessage.content && lastMessage.content.length > 0) {
-              const textContent = lastMessage.content.find(content => content.type === 'text');
-              if (textContent && textContent.text && textContent.text.value) {
-                botResponse = textContent.text.value;
-              }
+        if (response && response.data) {
+          let botResponse = '';
+          
+          // Usar data.message directamente si existe
+          if (response.data.message) {
+            botResponse = response.data.message;
+            
+            // Si hay productos, agregarlos al mensaje
+            if (response.data.products && response.data.products.length > 0) {
+              botResponse += this.formatProductsHTML(response.data.products);
             }
+            
+            this.messages.push({
+              id: Date.now(),
+              text: botResponse,
+              sender: 'bot',
+              timestamp: new Date(),
+              isHTML: true // Marcar como HTML para renderizado
+            });
 
-            if (botResponse) {
-              this.messages.push({
-                id: Date.now(),
-                text: botResponse,
-                sender: 'bot',
-                timestamp: new Date()
-              });
-
-              // Actualizar sessionId para próximas conversaciones
-              if (response.data.session_id) {
-                this.sessionId = response.data.session_id;
-                console.log('💾 Session ID guardado en memoria:', this.sessionId);
-              }
-            } else {
-              throw new Error('Respuesta vacía del asistente');
+            // Actualizar sessionId para próximas conversaciones
+            if (response.data.session_id) {
+              this.sessionId = response.data.session_id;
+              console.log('💾 Session ID guardado en memoria:', this.sessionId);
             }
           } else {
-            throw new Error('No se encontraron mensajes del asistente');
+            throw new Error('No se encontró mensaje en la respuesta');
           }
         } else {
           throw new Error('Respuesta inválida de la API');
@@ -262,6 +262,43 @@ class GeekWayChat {
         sendMessage();
       }
     });
+  }
+
+  // Función para formatear productos en HTML estético
+  formatProductsHTML(products) {
+    if (!products || products.length === 0) return '';
+    
+    let html = '<div class="products-container"><h4>🛍️ Productos encontrados:</h4><ul class="products-list">';
+    
+    products.forEach(product => {
+      html += '<li class="product-item">';
+      html += `<div class="product-header">`;
+      html += `<strong class="product-name">${product.nombre_producto || 'Sin nombre'}</strong>`;
+      html += `<span class="product-price">${product.precio || 'Precio no disponible'}</span>`;
+      html += `</div>`;
+      
+      if (product.descripcion) {
+        html += `<p class="product-description">${product.descripcion}</p>`;
+      }
+      
+      html += `<div class="product-details">`;
+      if (product.categoria) html += `<span class="product-tag">📂 ${product.categoria}</span>`;
+      if (product.color) html += `<span class="product-tag">🎨 ${product.color}</span>`;
+      if (product.proveedor) html += `<span class="product-tag">🏭 ${product.proveedor}</span>`;
+      if (product.estado_producto) html += `<span class="product-tag">📦 ${product.estado_producto}</span>`;
+      html += `</div>`;
+      
+      if (product.url_articulo) {
+        html += `<div class="product-actions">`;
+        html += `<a href="${product.url_articulo}" target="_blank" class="product-link">🔗 Ver producto</a>`;
+        html += `</div>`;
+      }
+      
+      html += '</li>';
+    });
+    
+    html += '</ul></div>';
+    return html;
   }
 
   // Función para llamar a la API de chat
@@ -663,6 +700,113 @@ class GeekWayChat {
 
       .hidden {
         display: none !important;
+      }
+
+      /* Estilos para productos */
+      .products-container {
+        margin-top: 12px;
+        padding: 12px;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .products-container h4 {
+        margin: 0 0 12px 0;
+        color: #1e293b;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .products-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .product-item {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 8px;
+        transition: all 0.2s ease;
+      }
+
+      .product-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .product-item:hover {
+        border-color: #8b5cf6;
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
+      }
+
+      .product-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+
+      .product-name {
+        color: #1e293b;
+        font-size: 14px;
+        font-weight: 600;
+        flex: 1;
+        margin-right: 8px;
+      }
+
+      .product-price {
+        color: #059669;
+        font-weight: 600;
+        font-size: 14px;
+        white-space: nowrap;
+      }
+
+      .product-description {
+        color: #64748b;
+        font-size: 12px;
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+
+      .product-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-bottom: 8px;
+      }
+
+      .product-tag {
+        background: #f1f5f9;
+        color: #475569;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 11px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .product-actions {
+        text-align: right;
+      }
+
+      .product-link {
+        display: inline-flex;
+        align-items: center;
+        color: #8b5cf6;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 4px 8px;
+        border: 1px solid #8b5cf6;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+
+      .product-link:hover {
+        background: #8b5cf6;
+        color: white;
       }
 
       @media (max-width: 640px) {
