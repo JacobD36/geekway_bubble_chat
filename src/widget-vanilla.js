@@ -6,6 +6,10 @@ class GeekWayChat {
     this.widget = null;
     this.isOpen = false;
     this.messages = [];
+    this.sessionId = null;
+    this.apiKey = null;
+    this.apiBaseUrl = 'http://localhost:3000/api/v1';
+    this.isLoading = false;
   }
 
   static init(config) {
@@ -27,6 +31,16 @@ class GeekWayChat {
     const theme = config.theme || 'purple';
     const position = config.position || 'bottom-right';
     const welcomeMessage = config.welcomeMessage || '¡Hola! Soy el asistente de GeekWay. ¿En qué puedo ayudarte?';
+    
+    // Configurar API
+    this.apiKey = config.apiKey;
+    this.apiBaseUrl = config.apiBaseUrl || 'http://localhost:3000/api/v1';
+
+    // Validar API Key
+    if (!this.apiKey) {
+      console.error('❌ GeekWay Chat: API Key es requerida');
+      return;
+    }
 
     // Inicializar mensajes
     this.messages = [{
@@ -145,9 +159,14 @@ class GeekWayChat {
     });
 
     // Send message
-    const sendMessage = () => {
+    const sendMessage = async () => {
       const text = messageInput.value.trim();
-      if (!text) return;
+      if (!text || this.isLoading) return;
+
+      // Deshabilitar input mientras se procesa
+      this.isLoading = true;
+      messageInput.disabled = true;
+      sendButton.disabled = true;
 
       // Agregar mensaje del usuario
       this.messages.push({
@@ -161,27 +180,80 @@ class GeekWayChat {
       this.updateMessages();
       this.scrollToBottom();
 
-      // Respuesta automática del bot
-      setTimeout(() => {
-        const responses = [
-          'Gracias por escribir. El equipo de GeekWay te responderá pronto.',
-          '¡Perfecto! Hemos recibido tu mensaje. Te contactaremos en breve.',
-          'Mensaje recibido. Un especialista de GeekWay se comunicará contigo.',
-          'Tu consulta es importante para nosotros. Te responderemos a la brevedad.'
-        ];
+      // Mostrar indicador de escritura
+      this.showTypingIndicator();
 
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      try {
+        // Llamar a la API
+        const response = await this.callChatAPI(text);
+        
+        // Remover indicador de escritura
+        this.hideTypingIndicator();
 
+        // Agregar respuesta del bot
+        if (response && response.data && response.data.messages) {
+          // Procesar mensajes de la respuesta
+          const assistantMessages = response.data.messages.filter(msg => msg.role === 'assistant');
+          
+          if (assistantMessages.length > 0) {
+            const lastMessage = assistantMessages[assistantMessages.length - 1];
+            let botResponse = '';
+            
+            // Extraer texto del mensaje
+            if (lastMessage.content && lastMessage.content.length > 0) {
+              const textContent = lastMessage.content.find(content => content.type === 'text');
+              if (textContent && textContent.text && textContent.text.value) {
+                botResponse = textContent.text.value;
+              }
+            }
+
+            if (botResponse) {
+              this.messages.push({
+                id: Date.now(),
+                text: botResponse,
+                sender: 'bot',
+                timestamp: new Date()
+              });
+
+              // Actualizar sessionId para próximas conversaciones
+              if (response.data.session_id) {
+                this.sessionId = response.data.session_id;
+                console.log('💾 Session ID guardado:', this.sessionId);
+              }
+            } else {
+              throw new Error('Respuesta vacía del asistente');
+            }
+          } else {
+            throw new Error('No se encontraron mensajes del asistente');
+          }
+        } else {
+          throw new Error('Respuesta inválida de la API');
+        }
+
+      } catch (error) {
+        console.error('❌ Error al enviar mensaje:', error);
+        
+        // Remover indicador de escritura si está presente
+        this.hideTypingIndicator();
+        
+        // Agregar mensaje de error
         this.messages.push({
           id: Date.now(),
-          text: randomResponse,
+          text: 'Lo siento, ha ocurrido un error. Por favor, inténtalo de nuevo.',
           sender: 'bot',
-          timestamp: new Date()
+          timestamp: new Date(),
+          isError: true
         });
-
+      } finally {
+        // Rehabilitar input
+        this.isLoading = false;
+        messageInput.disabled = false;
+        sendButton.disabled = false;
+        messageInput.focus();
+        
         this.updateMessages();
         this.scrollToBottom();
-      }, 1000);
+      }
     };
 
     sendButton.addEventListener('click', sendMessage);
@@ -190,6 +262,65 @@ class GeekWayChat {
         sendMessage();
       }
     });
+  }
+
+  // Función para llamar a la API de chat
+  async callChatAPI(message) {
+    const url = `${this.apiBaseUrl}/threads/chat`;
+    
+    const requestBody = {
+      message: message
+    };
+
+    // Si tenemos sessionId, incluirlo para continuar la conversación
+    if (this.sessionId) {
+      requestBody.session_id = this.sessionId;
+    }
+
+    console.log('📡 Enviando mensaje a API:', { url, body: requestBody });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-key': this.apiKey
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log('✅ Respuesta de API recibida:', data);
+    
+    return data;
+  }
+
+  // Mostrar indicador de escritura
+  showTypingIndicator() {
+    // Remover indicador existente si existe
+    this.hideTypingIndicator();
+
+    const typingMessage = {
+      id: 'typing-indicator',
+      text: '<div class="typing-indicator"><span></span><span></span><span></span></div>',
+      sender: 'bot',
+      timestamp: new Date(),
+      isTyping: true
+    };
+
+    this.messages.push(typingMessage);
+    this.updateMessages();
+    this.scrollToBottom();
+  }
+
+  // Ocultar indicador de escritura
+  hideTypingIndicator() {
+    this.messages = this.messages.filter(msg => msg.id !== 'typing-indicator');
+    this.updateMessages();
   }
 
   updateMessages() {
@@ -477,6 +608,51 @@ class GeekWayChat {
         width: 20px;
         height: 20px;
         color: white;
+      }
+
+      #send-button:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+
+      #message-input:disabled {
+        background: #f3f4f6;
+        cursor: not-allowed;
+      }
+
+      /* Indicador de escritura */
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 0;
+      }
+
+      .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        background: #9ca3af;
+        border-radius: 50%;
+        animation: typing 1.5s infinite;
+      }
+
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      @keyframes typing {
+        0%, 60%, 100% {
+          transform: translateY(0);
+          opacity: 0.4;
+        }
+        30% {
+          transform: translateY(-10px);
+          opacity: 1;
+        }
       }
 
       .hidden {

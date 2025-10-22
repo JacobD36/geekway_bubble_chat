@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 Test API Integration - GeekWay Chat v3.0.0</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 15px; 
+            margin: 15px 0; 
+            border-radius: 10px; 
+            font-weight: bold; 
+        }
+        .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+        .warning { background: #fff3cd; color: #856404; border-left: 4px solid #ffc107; }
+        .error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .api { background: #e1f5fe; color: #01579b; border-left: 4px solid #0288d1; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-item {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #0288d1;
+        }
+        .config-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .endpoint-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Integración API GeekWay Chat v3.0.0</h1>
+        
+        <div class="status api">
+            <strong>🚀 NUEVA VERSIÓN:</strong> Widget ahora integrado con OpenAI Threads Service API
+        </div>
+
+        <div class="endpoint-info">
+            <strong>📡 Endpoint:</strong> <code>POST http://localhost:3000/api/v1/threads/chat</code><br>
+            <strong>🔑 Autenticación:</strong> API Key via header <code>x-key</code><br>
+            <strong>💬 Sesiones:</strong> Conversaciones persistentes por 30 minutos<br>
+            <strong>🤖 OpenAI:</strong> Respuestas generadas por OpenAI Assistant
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <strong>🔄 Sesiones Persistentes</strong><br>
+                Mantiene contexto de conversación por 30 minutos
+            </div>
+            <div class="feature-item">
+                <strong>🤖 OpenAI Assistant</strong><br>
+                Respuestas inteligentes via OpenAI API
+            </div>
+            <div class="feature-item">
+                <strong>📡 API Real</strong><br>
+                Sin respuestas hardcodeadas, todo dinámico
+            </div>
+            <div class="feature-item">
+                <strong>⚡ Indicador de Escritura</strong><br>
+                Animación mientras se procesa el mensaje
+            </div>
+            <div class="feature-item">
+                <strong>🔐 Autenticación</strong><br>
+                API Key requerida para seguridad
+            </div>
+            <div class="feature-item">
+                <strong>🎯 Manejo de Errores</strong><br>
+                Mensajes informativos para el usuario
+            </div>
+        </div>
+
+        <div class="config-box">
+            <strong>⚙️ Configuración de Ejemplo:</strong><br><br>
+            GeekWayChat.init({<br>
+            &nbsp;&nbsp;apiKey: 'tu-api-key-aqui',<br>
+            &nbsp;&nbsp;apiBaseUrl: 'http://localhost:3000/api/v1', // Opcional<br>
+            &nbsp;&nbsp;theme: 'purple',<br>
+            &nbsp;&nbsp;position: 'bottom-right',<br>
+            &nbsp;&nbsp;welcomeMessage: '¡Hola! Soy tu asistente con IA.'<br>
+            });
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+        
+        addResult('✅ Página cargada correctamente', 'success');
+        addResult('⏳ Cargando widget con integración API...', 'info');
+    </script>
+    
+    <!-- Widget con integración API -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+    
+    <script>
+        addResult('📡 Widget cargado, verificando integración API...', 'info');
+        
+        if (typeof window.GeekWayChat !== 'undefined') {
+            addResult('✅ GeekWayChat disponible!', 'success');
+            
+            try {
+                // IMPORTANTE: Necesitas una API Key válida para que funcione
+                const result = window.GeekWayChat.init({
+                    apiKey: 'demo-api-key-test-integration', // Cambia esto por tu API Key real
+                    apiBaseUrl: 'http://localhost:3000/api/v1',
+                    theme: 'purple', 
+                    position: 'bottom-right',
+                    welcomeMessage: '¡Hola! 👋 Soy el asistente con IA de GeekWay. Ahora estoy conectado a OpenAI para darte respuestas inteligentes. ¡Pregúntame lo que quieras!'
+                });
+                
+                addResult('✅ Widget inicializado con integración API', 'success');
+                addResult('🔑 IMPORTANTE: Necesitas una API Key válida para que funcione', 'warning');
+                addResult('🏠 Servidor debe estar corriendo en http://localhost:3000', 'warning');
+                addResult('💬 Escribe un mensaje para probar la integración', 'api');
+                addResult('⚡ Verás un indicador de escritura mientras se procesa', 'info');
+                
+            } catch(e) {
+                addResult(`❌ Error al inicializar: ${e.message}`, 'error');
+            }
+        } else {
+            addResult('❌ GeekWayChat no disponible', 'error');
+        }
+
+        // Mostrar información de red
+        addResult('🌐 Estado de conexión: ' + (navigator.onLine ? 'En línea' : 'Sin conexión'), 
+                 navigator.onLine ? 'success' : 'error');
+    </script>
+</body>
+</html>

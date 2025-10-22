@@ -150,7 +150,7 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.2.4/dist/widget/geekway-chat-widget.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v3.0.0/dist/widget/geekway-chat-widget.css">
 </head>
 <body>
     <div class="container">
@@ -160,11 +160,11 @@
         </header>
 
         <div class="demo-notice">
-            🎯 SITIO WEB DE DEMOSTRACIÓN - Widget GeekWay Chat integrado (Vanilla JS v2.2.4 - Alineación Corregida)
+            🎯 SITIO WEB DE DEMOSTRACIÓN - Widget GeekWay Chat integrado (v3.0.0 - API Integration)
         </div>
 
         <div class="widget-info">
-            ✅ Widget de Chat Activado - Mira el botón circular en la esquina inferior derecha
+            ✅ Widget de Chat con IA Activado - Conectado a OpenAI Assistant via API REST
         </div>
 
         <div class="content">
@@ -224,7 +224,7 @@
 
             <p style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
                 <strong>💬 ¿Tienes preguntas?</strong><br>
-                Nuestro equipo de soporte está listo para ayudarte. Haz clic en el botón de chat para hablar con uno de nuestros especialistas.
+                Nuestro asistente con IA está listo para ayudarte. Conectado a OpenAI para darte respuestas inteligentes y personalizadas. Haz clic en el botón de chat para hablar con nuestro asistente virtual.
             </p>
         </div>
 
@@ -234,8 +234,8 @@
         </footer>
     </div>
 
-    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - VANILLA JS v2.2.4 (ALINEACIÓN CORREGIDA) -->
-    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v2.2.4/dist/widget/geekway-chat-widget.min.js"></script>
+    <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - v3.0.0 (API INTEGRATION) -->
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v3.0.0/dist/widget/geekway-chat-widget.min.js"></script>
 
     <!-- 🎯 INICIALIZACIÓN DEL WIDGET -->
     <script>
@@ -244,10 +244,11 @@
             // Inicializar el widget GeekWay Chat
             try {
                 GeekWayChat.init({
-                    apiKey: 'demo-api-key-techcorp-2025',
+                    apiKey: 'demo-api-key-techcorp-2025', // Cambiar por API Key real en producción
+                    apiBaseUrl: 'http://localhost:3000/api/v1', // URL de la API
                     theme: 'purple',
                     position: 'bottom-right',
-                    welcomeMessage: '¡Hola! Soy el asistente virtual de TechCorp con alineación corregida. Los mensajes aparecen como en WhatsApp. ¿En qué puedo ayudarte? 🤖💬'
+                    welcomeMessage: '¡Hola! Soy el asistente virtual de TechCorp con IA. Estoy conectado a OpenAI para darte respuestas inteligentes. ¿En qué puedo ayudarte hoy? 🤖🧠'
                 });
 
                 console.log('✅ Widget GeekWay Chat inicializado correctamente');
