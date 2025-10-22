@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔧 Test Session ID Management - GeekWay Chat v3.0.1</title>
+    <title>🔧 Test Session ID Management - GeekWay Chat v3.0.2</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            padding: 20px; 
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             margin: 0;
@@ -20,11 +20,11 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .status { 
-            padding: 15px; 
-            margin: 15px 0; 
-            border-radius: 10px; 
-            font-weight: bold; 
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
         }
         .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
         .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
@@ -97,27 +97,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔧 Test Session ID Management v3.0.1</h1>
+        <h1>🔧 Test Session ID Management v3.0.2</h1>
         
         <div class="status change">
-            <strong>🔄 CAMBIO IMPLEMENTADO:</strong> Session ID ahora se guarda en localStorage y se envía en headers
-        </div>
-
-        <div class="before-after">
+            <strong>🔄 CORRECCIÓN IMPLEMENTADA:</strong> Session ID ahora se envía correctamente en BODY según documentación API
+        </div>        <div class="before-after">
             <div class="comparison-box before">
-                <strong>❌ ANTES (v3.0.0):</strong><br><br>
-                POST Body:<br>
-                {<br>
-                &nbsp;&nbsp;"message": "Hola",<br>
-                &nbsp;&nbsp;"session_id": "uuid" // En body<br>
-                }<br><br>
-                Headers:<br>
-                {<br>
-                &nbsp;&nbsp;"x-key": "api-key"<br>
-                }
-            </div>
-            <div class="comparison-box after">
-                <strong>✅ DESPUÉS (v3.0.1):</strong><br><br>
+                <strong>❌ ANTES (Incorrecto):</strong><br><br>
                 POST Body:<br>
                 {<br>
                 &nbsp;&nbsp;"message": "Hola" // Solo mensaje<br>
@@ -125,7 +111,19 @@
                 Headers:<br>
                 {<br>
                 &nbsp;&nbsp;"x-key": "api-key",<br>
-                &nbsp;&nbsp;"session_id": "uuid" // En header<br>
+                &nbsp;&nbsp;"session_id": "uuid" // ❌ En header<br>
+                }
+            </div>
+            <div class="comparison-box after">
+                <strong>✅ DESPUÉS (Correcto):</strong><br><br>
+                POST Body:<br>
+                {<br>
+                &nbsp;&nbsp;"message": "Hola",<br>
+                &nbsp;&nbsp;"session_id": "uuid" // ✅ En body<br>
+                }<br><br>
+                Headers:<br>
+                {<br>
+                &nbsp;&nbsp;"x-key": "api-key" // Solo x-key<br>
                 }
             </div>
         </div>
@@ -145,8 +143,8 @@
             </div>
             <div class="behavior-item">
                 <strong>📤 Mensajes Posteriores</strong><br>
-                • Body: solo "message"<br>
-                • Headers: "x-key" + "session_id"<br>
+                • Body: "message" + "session_id"<br>
+                • Headers: solo "x-key"<br>
                 • session_id desde localStorage
             </div>
             <div class="behavior-item">
@@ -174,7 +172,7 @@
 
     <script>
         const results = document.getElementById('results');
-        
+
         function addResult(message, type = 'info') {
             const div = document.createElement('div');
             div.className = `status ${type}`;
@@ -185,7 +183,7 @@
         function checkSessionId() {
             const sessionId = localStorage.getItem('session_id');
             const currentSpan = document.getElementById('current-session');
-            
+
             if (sessionId) {
                 currentSpan.textContent = sessionId;
                 addResult(`✅ Session ID encontrado: ${sessionId}`, 'success');
@@ -203,7 +201,7 @@
 
         function simulateFirstMessage() {
             const sessionId = localStorage.getItem('session_id');
-            
+
             const requestInfo = {
                 method: 'POST',
                 url: 'http://localhost:3000/api/v1/threads/chat',
@@ -223,7 +221,7 @@
                 addResult('⚠️ Ya existe session_id, este NO sería el primer mensaje', 'warning');
                 requestInfo.headers['session_id'] = sessionId;
             }
-            
+
             addResult(`<pre>${JSON.stringify(requestInfo, null, 2)}</pre>`, 'info');
         }
 
@@ -240,47 +238,45 @@
                 url: 'http://localhost:3000/api/v1/threads/chat',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-key': 'demo-api-key',
-                    'session_id': sessionId
+                    'x-key': 'demo-api-key'
                 },
                 body: {
-                    message: 'Este es mi segundo mensaje'
+                    message: 'Este es mi segundo mensaje',
+                    session_id: sessionId
                 }
             };
             
-            addResult('📤 SEGUNDO MENSAJE simulado - Mensaje en body + session_id en header', 'success');
+            addResult('📤 SEGUNDO MENSAJE simulado - Mensaje + session_id en body', 'success');
             addResult(`<pre>${JSON.stringify(requestInfo, null, 2)}</pre>`, 'info');
-        }
-
-        // Verificar estado inicial
+        }        // Verificar estado inicial
         addResult('✅ Página cargada correctamente', 'success');
         addResult('⏳ Cargando widget con session management actualizado...', 'info');
         checkSessionId();
     </script>
-    
+
     <!-- Widget con session management actualizado -->
     <script src="dist/widget/geekway-chat-widget.min.js"></script>
-    
+
     <script>
         addResult('📡 Widget cargado, verificando session management...', 'info');
-        
+
         if (typeof window.GeekWayChat !== 'undefined') {
             addResult('✅ GeekWayChat disponible!', 'success');
-            
+
             try {
                 const result = window.GeekWayChat.init({
-                    apiKey: 'demo-api-key-session-test',
+                    apiKey: '54b71fbf7c0c22b54a08bfdfa91609a0ffd35ae81125f20e70eb7b2afddf97be',
                     apiBaseUrl: 'http://localhost:3000/api/v1',
-                    theme: 'purple', 
+                    theme: 'purple',
                     position: 'bottom-right',
-                    welcomeMessage: '¡Hola! 👋 Soy GeekWay Chat v3.0.1. Ahora manejo el session_id en localStorage y headers. ¡Prueba enviando mensajes!'
+                    welcomeMessage: '¡Hola! 👋 Soy GeekWay Chat v3.0.2. Ahora envío el session_id correctamente en el BODY del request según la documentación API. ¡Prueba enviando mensajes!'
                 });
-                
-                addResult('✅ Widget inicializado con session management v3.0.1', 'success');
-                addResult('🔄 NUEVO: Session ID se guarda en localStorage', 'change');
-                addResult('📤 NUEVO: Session ID se envía en headers (no en body)', 'change');
+
+                addResult('✅ Widget inicializado con session management v3.0.2', 'success');
+                addResult('🔄 CORREGIDO: Session ID se envía en body según documentación', 'change');
+                addResult('📤 CORREGIDO: Headers solo contienen x-key', 'change');
                 addResult('💬 Abre el chat y envía mensajes para probar', 'info');
-                
+
             } catch(e) {
                 addResult(`❌ Error al inicializar: ${e.message}`, 'error');
             }

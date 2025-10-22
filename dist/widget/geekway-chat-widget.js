@@ -275,28 +275,28 @@ class GeekWayChat {
   // Función para llamar a la API de chat
   async callChatAPI(message) {
     const url = `${this.apiBaseUrl}/threads/chat`;
-    
-    // El body siempre contiene solo el mensaje
+
+    // Preparar el body del request
     const requestBody = {
       message: message
     };
 
-    // Preparar headers
+    // Si tenemos sessionId en localStorage, incluirlo en el body
+    const sessionId = this.getSessionId();
+    if (sessionId) {
+      requestBody.session_id = sessionId;
+    }
+
+    // Headers solo contienen x-key
     const headers = {
       'Content-Type': 'application/json',
       'x-key': this.apiKey
     };
 
-    // Si tenemos sessionId en localStorage, incluirlo en el header
-    const sessionId = this.getSessionId();
-    if (sessionId) {
-      headers['session_id'] = sessionId;
-    }
-
-    console.log('📡 Enviando mensaje a API:', { 
-      url, 
-      body: requestBody, 
-      headers: { ...headers, 'x-key': '[OCULTA]' } 
+    console.log('📡 Enviando mensaje a API:', {
+      url,
+      body: requestBody,
+      headers: { ...headers, 'x-key': '[OCULTA]' }
     });
 
     const response = await fetch(url, {
@@ -312,7 +312,7 @@ class GeekWayChat {
 
     const data = await response.json();
     console.log('✅ Respuesta de API recibida:', data);
-    
+
     return data;
   }  // Mostrar indicador de escritura
   showTypingIndicator() {
