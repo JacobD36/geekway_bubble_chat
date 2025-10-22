@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Test Session ID Management - GeekWay Chat v3.0.1</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 15px; 
+            margin: 15px 0; 
+            border-radius: 10px; 
+            font-weight: bold; 
+        }
+        .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+        .warning { background: #fff3cd; color: #856404; border-left: 4px solid #ffc107; }
+        .error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .change { background: #e1f5fe; color: #01579b; border-left: 4px solid #0288d1; }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        .behavior-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .behavior-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .comparison-box {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            border: 2px solid;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .before { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
+        .after { border-color: #22c55e; background: #f0fdf4; color: #14532d; }
+        .debug-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid #e4e4e7;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .test-button {
+            padding: 10px 20px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background: #2563eb;
+        }
+        .clear-button {
+            background: #ef4444;
+        }
+        .clear-button:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Test Session ID Management v3.0.1</h1>
+        
+        <div class="status change">
+            <strong>🔄 CAMBIO IMPLEMENTADO:</strong> Session ID ahora se guarda en localStorage y se envía en headers
+        </div>
+
+        <div class="before-after">
+            <div class="comparison-box before">
+                <strong>❌ ANTES (v3.0.0):</strong><br><br>
+                POST Body:<br>
+                {<br>
+                &nbsp;&nbsp;"message": "Hola",<br>
+                &nbsp;&nbsp;"session_id": "uuid" // En body<br>
+                }<br><br>
+                Headers:<br>
+                {<br>
+                &nbsp;&nbsp;"x-key": "api-key"<br>
+                }
+            </div>
+            <div class="comparison-box after">
+                <strong>✅ DESPUÉS (v3.0.1):</strong><br><br>
+                POST Body:<br>
+                {<br>
+                &nbsp;&nbsp;"message": "Hola" // Solo mensaje<br>
+                }<br><br>
+                Headers:<br>
+                {<br>
+                &nbsp;&nbsp;"x-key": "api-key",<br>
+                &nbsp;&nbsp;"session_id": "uuid" // En header<br>
+                }
+            </div>
+        </div>
+
+        <div class="behavior-grid">
+            <div class="behavior-item">
+                <strong>📨 Primer Mensaje</strong><br>
+                • Body: solo "message"<br>
+                • Headers: solo "x-key"<br>
+                • No session_id enviado
+            </div>
+            <div class="behavior-item">
+                <strong>📥 Respuesta API</strong><br>
+                • Contiene session_id en response.data<br>
+                • Se guarda en localStorage<br>
+                • Key: "session_id"
+            </div>
+            <div class="behavior-item">
+                <strong>📤 Mensajes Posteriores</strong><br>
+                • Body: solo "message"<br>
+                • Headers: "x-key" + "session_id"<br>
+                • session_id desde localStorage
+            </div>
+            <div class="behavior-item">
+                <strong>💾 Persistencia</strong><br>
+                • Guardado en localStorage<br>
+                • Sobrevive refresh/reload<br>
+                • Manual clear posible
+            </div>
+        </div>
+
+        <div class="debug-box">
+            <strong>🔍 Session ID actual en localStorage:</strong><br>
+            <span id="current-session">Verificando...</span>
+        </div>
+
+        <div class="button-group">
+            <button class="test-button" onclick="checkSessionId()">🔍 Verificar Session ID</button>
+            <button class="test-button clear-button" onclick="clearSessionId()">🗑️ Limpiar Session ID</button>
+            <button class="test-button" onclick="simulateFirstMessage()">📨 Simular Primer Mensaje</button>
+            <button class="test-button" onclick="simulateSecondMessage()">📤 Simular Segundo Mensaje</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+
+        function checkSessionId() {
+            const sessionId = localStorage.getItem('session_id');
+            const currentSpan = document.getElementById('current-session');
+            
+            if (sessionId) {
+                currentSpan.textContent = sessionId;
+                addResult(`✅ Session ID encontrado: ${sessionId}`, 'success');
+            } else {
+                currentSpan.textContent = 'No existe';
+                addResult('ℹ️ No hay Session ID en localStorage', 'info');
+            }
+        }
+
+        function clearSessionId() {
+            localStorage.removeItem('session_id');
+            document.getElementById('current-session').textContent = 'No existe';
+            addResult('🗑️ Session ID eliminado del localStorage', 'warning');
+        }
+
+        function simulateFirstMessage() {
+            const sessionId = localStorage.getItem('session_id');
+            
+            const requestInfo = {
+                method: 'POST',
+                url: 'http://localhost:3000/api/v1/threads/chat',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-key': 'demo-api-key'
+                },
+                body: {
+                    message: 'Hola, este es mi primer mensaje'
+                }
+            };
+
+            // Si no hay session_id, es realmente el primer mensaje
+            if (!sessionId) {
+                addResult('📨 PRIMER MENSAJE simulado - Solo mensaje en body, sin session_id', 'info');
+            } else {
+                addResult('⚠️ Ya existe session_id, este NO sería el primer mensaje', 'warning');
+                requestInfo.headers['session_id'] = sessionId;
+            }
+            
+            addResult(`<pre>${JSON.stringify(requestInfo, null, 2)}</pre>`, 'info');
+        }
+
+        function simulateSecondMessage() {
+            const sessionId = localStorage.getItem('session_id');
+            
+            if (!sessionId) {
+                addResult('❌ No hay session_id. Primero simula una respuesta de API o limpia y recarga', 'error');
+                return;
+            }
+
+            const requestInfo = {
+                method: 'POST',
+                url: 'http://localhost:3000/api/v1/threads/chat',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-key': 'demo-api-key',
+                    'session_id': sessionId
+                },
+                body: {
+                    message: 'Este es mi segundo mensaje'
+                }
+            };
+            
+            addResult('📤 SEGUNDO MENSAJE simulado - Mensaje en body + session_id en header', 'success');
+            addResult(`<pre>${JSON.stringify(requestInfo, null, 2)}</pre>`, 'info');
+        }
+
+        // Verificar estado inicial
+        addResult('✅ Página cargada correctamente', 'success');
+        addResult('⏳ Cargando widget con session management actualizado...', 'info');
+        checkSessionId();
+    </script>
+    
+    <!-- Widget con session management actualizado -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+    
+    <script>
+        addResult('📡 Widget cargado, verificando session management...', 'info');
+        
+        if (typeof window.GeekWayChat !== 'undefined') {
+            addResult('✅ GeekWayChat disponible!', 'success');
+            
+            try {
+                const result = window.GeekWayChat.init({
+                    apiKey: 'demo-api-key-session-test',
+                    apiBaseUrl: 'http://localhost:3000/api/v1',
+                    theme: 'purple', 
+                    position: 'bottom-right',
+                    welcomeMessage: '¡Hola! 👋 Soy GeekWay Chat v3.0.1. Ahora manejo el session_id en localStorage y headers. ¡Prueba enviando mensajes!'
+                });
+                
+                addResult('✅ Widget inicializado con session management v3.0.1', 'success');
+                addResult('🔄 NUEVO: Session ID se guarda en localStorage', 'change');
+                addResult('📤 NUEVO: Session ID se envía en headers (no en body)', 'change');
+                addResult('💬 Abre el chat y envía mensajes para probar', 'info');
+                
+            } catch(e) {
+                addResult(`❌ Error al inicializar: ${e.message}`, 'error');
+            }
+        } else {
+            addResult('❌ GeekWayChat no disponible', 'error');
+        }
+
+        // Monitor para cambios en localStorage
+        let lastSessionId = localStorage.getItem('session_id');
+        setInterval(() => {
+            const currentSessionId = localStorage.getItem('session_id');
+            if (currentSessionId !== lastSessionId) {
+                lastSessionId = currentSessionId;
+                checkSessionId();
+                if (currentSessionId) {
+                    addResult(`🔄 Session ID actualizado automáticamente: ${currentSessionId}`, 'change');
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -6,7 +6,6 @@ class GeekWayChat {
     this.widget = null;
     this.isOpen = false;
     this.messages = [];
-    this.sessionId = null;
     this.apiKey = null;
     this.apiBaseUrl = 'http://localhost:3000/api/v1';
     this.isLoading = false;
@@ -31,7 +30,7 @@ class GeekWayChat {
     const theme = config.theme || 'purple';
     const position = config.position || 'bottom-right';
     const welcomeMessage = config.welcomeMessage || '¡Hola! Soy el asistente de GeekWay. ¿En qué puedo ayudarte?';
-    
+
     // Configurar API
     this.apiKey = config.apiKey;
     this.apiBaseUrl = config.apiBaseUrl || 'http://localhost:3000/api/v1';
@@ -186,7 +185,7 @@ class GeekWayChat {
       try {
         // Llamar a la API
         const response = await this.callChatAPI(text);
-        
+
         // Remover indicador de escritura
         this.hideTypingIndicator();
 
@@ -194,11 +193,11 @@ class GeekWayChat {
         if (response && response.data && response.data.messages) {
           // Procesar mensajes de la respuesta
           const assistantMessages = response.data.messages.filter(msg => msg.role === 'assistant');
-          
+
           if (assistantMessages.length > 0) {
             const lastMessage = assistantMessages[assistantMessages.length - 1];
             let botResponse = '';
-            
+
             // Extraer texto del mensaje
             if (lastMessage.content && lastMessage.content.length > 0) {
               const textContent = lastMessage.content.find(content => content.type === 'text');
@@ -217,8 +216,7 @@ class GeekWayChat {
 
               // Actualizar sessionId para próximas conversaciones
               if (response.data.session_id) {
-                this.sessionId = response.data.session_id;
-                console.log('💾 Session ID guardado:', this.sessionId);
+                this.setSessionId(response.data.session_id);
               }
             } else {
               throw new Error('Respuesta vacía del asistente');
@@ -232,10 +230,10 @@ class GeekWayChat {
 
       } catch (error) {
         console.error('❌ Error al enviar mensaje:', error);
-        
+
         // Remover indicador de escritura si está presente
         this.hideTypingIndicator();
-        
+
         // Agregar mensaje de error
         this.messages.push({
           id: Date.now(),
@@ -250,7 +248,7 @@ class GeekWayChat {
         messageInput.disabled = false;
         sendButton.disabled = false;
         messageInput.focus();
-        
+
         this.updateMessages();
         this.scrollToBottom();
       }
@@ -264,27 +262,46 @@ class GeekWayChat {
     });
   }
 
+  // Funciones para manejar session_id en localStorage
+  getSessionId() {
+    return localStorage.getItem('session_id');
+  }
+
+  setSessionId(sessionId) {
+    localStorage.setItem('session_id', sessionId);
+    console.log('💾 Session ID guardado en localStorage:', sessionId);
+  }
+
   // Función para llamar a la API de chat
   async callChatAPI(message) {
     const url = `${this.apiBaseUrl}/threads/chat`;
     
+    // El body siempre contiene solo el mensaje
     const requestBody = {
       message: message
     };
 
-    // Si tenemos sessionId, incluirlo para continuar la conversación
-    if (this.sessionId) {
-      requestBody.session_id = this.sessionId;
+    // Preparar headers
+    const headers = {
+      'Content-Type': 'application/json',
+      'x-key': this.apiKey
+    };
+
+    // Si tenemos sessionId en localStorage, incluirlo en el header
+    const sessionId = this.getSessionId();
+    if (sessionId) {
+      headers['session_id'] = sessionId;
     }
 
-    console.log('📡 Enviando mensaje a API:', { url, body: requestBody });
+    console.log('📡 Enviando mensaje a API:', { 
+      url, 
+      body: requestBody, 
+      headers: { ...headers, 'x-key': '[OCULTA]' } 
+    });
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-key': this.apiKey
-      },
+      headers: headers,
       body: JSON.stringify(requestBody)
     });
 
@@ -297,9 +314,7 @@ class GeekWayChat {
     console.log('✅ Respuesta de API recibida:', data);
     
     return data;
-  }
-
-  // Mostrar indicador de escritura
+  }  // Mostrar indicador de escritura
   showTypingIndicator() {
     // Remover indicador existente si existe
     this.hideTypingIndicator();

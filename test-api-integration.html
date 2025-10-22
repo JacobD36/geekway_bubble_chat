@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔗 Test API Integration - GeekWay Chat v3.0.0</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            padding: 20px; 
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             margin: 0;
@@ -20,11 +20,11 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .status { 
-            padding: 15px; 
-            margin: 15px 0; 
-            border-radius: 10px; 
-            font-weight: bold; 
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: bold;
         }
         .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
         .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
@@ -65,7 +65,7 @@
 <body>
     <div class="container">
         <h1>🔗 Integración API GeekWay Chat v3.0.0</h1>
-        
+
         <div class="status api">
             <strong>🚀 NUEVA VERSIÓN:</strong> Widget ahora integrado con OpenAI Threads Service API
         </div>
@@ -120,43 +120,43 @@
 
     <script>
         const results = document.getElementById('results');
-        
+
         function addResult(message, type = 'info') {
             const div = document.createElement('div');
             div.className = `status ${type}`;
             div.innerHTML = message;
             results.appendChild(div);
         }
-        
+
         addResult('✅ Página cargada correctamente', 'success');
         addResult('⏳ Cargando widget con integración API...', 'info');
     </script>
-    
+
     <!-- Widget con integración API -->
     <script src="dist/widget/geekway-chat-widget.min.js"></script>
-    
+
     <script>
         addResult('📡 Widget cargado, verificando integración API...', 'info');
-        
+
         if (typeof window.GeekWayChat !== 'undefined') {
             addResult('✅ GeekWayChat disponible!', 'success');
-            
+
             try {
                 // IMPORTANTE: Necesitas una API Key válida para que funcione
                 const result = window.GeekWayChat.init({
-                    apiKey: 'demo-api-key-test-integration', // Cambia esto por tu API Key real
+                    apiKey: '54b71fbf7c0c22b54a08bfdfa91609a0ffd35ae81125f20e70eb7b2afddf97be', // Cambia esto por tu API Key real
                     apiBaseUrl: 'http://localhost:3000/api/v1',
-                    theme: 'purple', 
+                    theme: 'purple',
                     position: 'bottom-right',
                     welcomeMessage: '¡Hola! 👋 Soy el asistente con IA de GeekWay. Ahora estoy conectado a OpenAI para darte respuestas inteligentes. ¡Pregúntame lo que quieras!'
                 });
-                
+
                 addResult('✅ Widget inicializado con integración API', 'success');
                 addResult('🔑 IMPORTANTE: Necesitas una API Key válida para que funcione', 'warning');
                 addResult('🏠 Servidor debe estar corriendo en http://localhost:3000', 'warning');
                 addResult('💬 Escribe un mensaje para probar la integración', 'api');
                 addResult('⚡ Verás un indicador de escritura mientras se procesa', 'info');
-                
+
             } catch(e) {
                 addResult(`❌ Error al inicializar: ${e.message}`, 'error');
             }
@@ -165,7 +165,7 @@
         }
 
         // Mostrar información de red
-        addResult('🌐 Estado de conexión: ' + (navigator.onLine ? 'En línea' : 'Sin conexión'), 
+        addResult('🌐 Estado de conexión: ' + (navigator.onLine ? 'En línea' : 'Sin conexión'),
                  navigator.onLine ? 'success' : 'error');
     </script>
 </body>
