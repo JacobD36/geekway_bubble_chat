@@ -9,6 +9,7 @@ class GeekWayChat {
     this.apiKey = null;
     this.apiBaseUrl = 'http://localhost:3000/api/v1';
     this.isLoading = false;
+    this.sessionId = null; // Gestión de sesión en memoria
   }
 
   static init(config) {
@@ -216,7 +217,8 @@ class GeekWayChat {
 
               // Actualizar sessionId para próximas conversaciones
               if (response.data.session_id) {
-                this.setSessionId(response.data.session_id);
+                this.sessionId = response.data.session_id;
+                console.log('💾 Session ID guardado en memoria:', this.sessionId);
               }
             } else {
               throw new Error('Respuesta vacía del asistente');
@@ -262,16 +264,6 @@ class GeekWayChat {
     });
   }
 
-  // Funciones para manejar session_id en localStorage
-  getSessionId() {
-    return localStorage.getItem('session_id');
-  }
-
-  setSessionId(sessionId) {
-    localStorage.setItem('session_id', sessionId);
-    console.log('💾 Session ID guardado en localStorage:', sessionId);
-  }
-
   // Función para llamar a la API de chat
   async callChatAPI(message) {
     const url = `${this.apiBaseUrl}/threads/chat`;
@@ -281,10 +273,9 @@ class GeekWayChat {
       message: message
     };
 
-    // Si tenemos sessionId en localStorage, incluirlo en el body
-    const sessionId = this.getSessionId();
-    if (sessionId) {
-      requestBody.session_id = sessionId;
+    // Si tenemos sessionId en memoria, incluirlo en el body
+    if (this.sessionId) {
+      requestBody.session_id = this.sessionId;
     }
 
     // Headers solo contienen x-key

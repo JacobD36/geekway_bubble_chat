@@ -98,7 +98,7 @@
 <body>
     <div class="container">
         <h1>🔧 Test Session ID Management v3.0.2</h1>
-        
+
         <div class="status change">
             <strong>🔄 CORRECCIÓN IMPLEMENTADA:</strong> Session ID ahora se envía correctamente en BODY según documentación API
         </div>        <div class="before-after">
@@ -227,7 +227,7 @@
 
         function simulateSecondMessage() {
             const sessionId = localStorage.getItem('session_id');
-            
+
             if (!sessionId) {
                 addResult('❌ No hay session_id. Primero simula una respuesta de API o limpia y recarga', 'error');
                 return;
@@ -245,7 +245,7 @@
                     session_id: sessionId
                 }
             };
-            
+
             addResult('📤 SEGUNDO MENSAJE simulado - Mensaje + session_id en body', 'success');
             addResult(`<pre>${JSON.stringify(requestInfo, null, 2)}</pre>`, 'info');
         }        // Verificar estado inicial
