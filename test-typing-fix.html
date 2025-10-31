@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Test Typing Indicator Fix</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn.primary {
+            background: #8b5cf6;
+            border-color: #7c3aed;
+        }
+
+        .status {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .success { border-left: 4px solid #10b981; }
+        .error { border-left: 4px solid #ef4444; }
+        .info { border-left: 4px solid #3b82f6; }
+        .warning { border-left: 4px solid #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 40px;">🔄 Test Typing Indicator Fix</h1>
+
+        <div class="test-section">
+            <h2>⚡ Control del Widget</h2>
+            <div class="controls">
+                <button class="btn primary" onclick="initWidget()">🚀 Inicializar Widget</button>
+                <button class="btn" onclick="testTypingIndicator()">⏳ Test Typing Indicator</button>
+                <button class="btn" onclick="simulateTypingAndMessage()">💬 Simular Conversación</button>
+                <button class="btn" onclick="checkHTML()">🔍 Verificar HTML</button>
+            </div>
+
+            <div id="widget-status" class="status info">
+                ⏳ Widget no inicializado. Haz clic en "Inicializar Widget" para comenzar.
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Diagnóstico</h2>
+            <div id="diagnostic-info" class="status info">
+                📊 Información de diagnóstico aparecerá aquí...
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget Script -->
+    <script src="dist/widget/geekway-chat-widget.min.js"></script>
+
+    <script>
+        let widgetInstance = null;
+        const statusDiv = document.getElementById('widget-status');
+        const diagnosticDiv = document.getElementById('diagnostic-info');
+
+        function updateStatus(message, type = 'info') {
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = message;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function updateDiagnostic(message, type = 'info') {
+            diagnosticDiv.className = `status ${type}`;
+            diagnosticDiv.innerHTML = message;
+        }
+
+        function initWidget() {
+            try {
+                if (widgetInstance) {
+                    widgetInstance.destroy();
+                    updateStatus('🔄 Widget anterior destruido, reiniciando...', 'info');
+                }
+
+                // Verificar que la clase existe
+                if (typeof window.GeekWayChat === 'undefined') {
+                    throw new Error('GeekWayChat no está definido en window');
+                }
+
+                // Inicializar widget usando GeekWayChat.init
+                widgetInstance = window.GeekWayChat.init({
+                    apiKey: 'test-typing-indicator-fix',
+                    apiBaseUrl: 'https://api-demo.geekway.com/api/v1',
+                    assistantName: 'Test Assistant',
+                    welcomeMessage: '¡Hola! 👋 Prueba el typing indicator enviando un mensaje.',
+                    theme: 'purple',
+                    position: 'bottom-right'
+                });
+
+                updateStatus('✅ Widget inicializado exitosamente. Mira la esquina inferior derecha.', 'success');
+                updateDiagnostic('🔧 Widget listo para testing del typing indicator', 'success');
+
+            } catch (error) {
+                updateStatus(`❌ Error al inicializar widget: ${error.message}`, 'error');
+                console.error('Error completo:', error);
+            }
+        }
+
+        function testTypingIndicator() {
+            if (!widgetInstance) {
+                updateStatus('⚠️ Primero inicializa el widget', 'error');
+                return;
+            }
+
+            updateStatus('⏳ Mostrando typing indicator...', 'info');
+
+            try {
+                // Mostrar typing indicator
+                widgetInstance.showTypingIndicator();
+                updateDiagnostic('✅ showTypingIndicator() ejecutado', 'success');
+
+                // Verificar después de un momento
+                setTimeout(() => {
+                    checkTypingIndicatorHTML();
+                }, 500);
+
+                // Ocultar después de 3 segundos
+                setTimeout(() => {
+                    widgetInstance.hideTypingIndicator();
+                    updateStatus('✅ Typing indicator ocultado', 'success');
+                    updateDiagnostic('🔄 hideTypingIndicator() ejecutado', 'info');
+                }, 3000);
+
+            } catch (error) {
+                updateStatus(`❌ Error en typing indicator: ${error.message}`, 'error');
+                updateDiagnostic(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        function simulateTypingAndMessage() {
+            if (!widgetInstance) {
+                updateStatus('⚠️ Primero inicializa el widget', 'error');
+                return;
+            }
+
+            updateStatus('💬 Simulando conversación completa...', 'info');
+
+            // Agregar mensaje de usuario
+            widgetInstance.messages.push({
+                id: Date.now() - 1000,
+                text: '¿Puedes mostrarme algunos productos?',
+                sender: 'user',
+                timestamp: new Date()
+            });
+            widgetInstance.updateMessages();
+
+            // Mostrar typing indicator
+            widgetInstance.showTypingIndicator();
+            updateDiagnostic('⏳ Typing indicator mostrado, esperando respuesta...', 'info');
+
+            // Simular respuesta después de 2 segundos
+            setTimeout(() => {
+                widgetInstance.hideTypingIndicator();
+
+                // Agregar respuesta del bot
+                const mockResponse = {
+                    data: {
+                        session_id: "test-session-" + Date.now(),
+                        message: "¡Por supuesto! Aquí tienes algunos productos que podrían interesarte:",
+                        products: [
+                            {
+                                codigo_producto: "P001",
+                                nombre_producto: "MacBook Pro M3",
+                                descripcion: "Laptop profesional con chip M3, 16GB RAM y 512GB SSD.",
+                                categoria: "Laptops",
+                                precio: "3,999 USD",
+                                color: "Space Gray",
+                                proveedor: "Apple",
+                                estado_producto: "Nuevo",
+                                url_articulo: "https://www.apple.com/macbook-pro/"
+                            }
+                        ]
+                    }
+                };
+
+                let botResponse = mockResponse.data.message;
+                if (mockResponse.data.products && mockResponse.data.products.length > 0) {
+                    botResponse += widgetInstance.formatProductsHTML(mockResponse.data.products);
+                }
+
+                widgetInstance.messages.push({
+                    id: Date.now(),
+                    text: botResponse,
+                    sender: 'bot',
+                    timestamp: new Date(),
+                    isHTML: true
+                });
+
+                if (mockResponse.data.session_id) {
+                    widgetInstance.sessionId = mockResponse.data.session_id;
+                }
+
+                widgetInstance.updateMessages();
+                widgetInstance.scrollToBottom();
+
+                updateStatus('✅ Conversación simulada completada', 'success');
+                updateDiagnostic('✅ Typing indicator funcionó correctamente + respuesta con productos', 'success');
+
+            }, 2000);
+        }
+
+        function checkHTML() {
+            if (!widgetInstance) {
+                updateStatus('⚠️ Primero inicializa el widget', 'error');
+                return;
+            }
+
+            checkTypingIndicatorHTML();
+        }
+
+        function checkTypingIndicatorHTML() {
+            // Verificar si hay un mensaje con typing indicator
+            const typingMessage = widgetInstance.messages.find(msg => msg.id === 'typing-indicator');
+
+            if (typingMessage) {
+                const hasHTML = typingMessage.isHTML === true;
+                const htmlContent = typingMessage.text;
+
+                updateDiagnostic(`
+                    🔍 Typing Indicator encontrado:<br>
+                    • isHTML: ${hasHTML ? '✅ true' : '❌ false'}<br>
+                    • Contenido: ${htmlContent}<br>
+                    • Estado: ${hasHTML ? '✅ Debería renderizar correctamente' : '❌ Se mostrará como texto'}
+                `, hasHTML ? 'success' : 'error');
+
+                // Verificar en el DOM también
+                setTimeout(() => {
+                    const chatContainer = document.querySelector('.chat-messages, #chat-messages');
+                    if (chatContainer) {
+                        const typingElement = chatContainer.querySelector('.typing-indicator');
+                        if (typingElement) {
+                            updateStatus('✅ Typing indicator encontrado en DOM y funcionando', 'success');
+                        } else {
+                            updateStatus('⚠️ Typing indicator no encontrado en DOM', 'warning');
+                        }
+                    }
+                }, 100);
+
+            } else {
+                updateDiagnostic('❌ No se encontró typing indicator en los mensajes', 'error');
+            }
+        }
+
+        // Auto-inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('📱 Página cargada. Listo para testing.', 'info');
+            setTimeout(() => {
+                initWidget();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

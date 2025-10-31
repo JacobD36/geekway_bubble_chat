@@ -200,16 +200,16 @@ class GeekWayChat {
         // Agregar respuesta del bot
         if (response && response.data) {
           let botResponse = '';
-          
+
           // Usar data.message directamente si existe
           if (response.data.message) {
             botResponse = response.data.message;
-            
+
             // Si hay productos, agregarlos al mensaje
             if (response.data.products && response.data.products.length > 0) {
               botResponse += this.formatProductsHTML(response.data.products);
             }
-            
+
             this.messages.push({
               id: Date.now(),
               text: botResponse,
@@ -267,36 +267,36 @@ class GeekWayChat {
   // Función para formatear productos en HTML estético
   formatProductsHTML(products) {
     if (!products || products.length === 0) return '';
-    
+
     let html = '<div class="products-container"><h4>🛍️ Productos encontrados:</h4><ul class="products-list">';
-    
+
     products.forEach(product => {
       html += '<li class="product-item">';
       html += `<div class="product-header">`;
       html += `<strong class="product-name">${product.nombre_producto || 'Sin nombre'}</strong>`;
       html += `<span class="product-price">${product.precio || 'Precio no disponible'}</span>`;
       html += `</div>`;
-      
+
       if (product.descripcion) {
         html += `<p class="product-description">${product.descripcion}</p>`;
       }
-      
+
       html += `<div class="product-details">`;
       if (product.categoria) html += `<span class="product-tag">📂 ${product.categoria}</span>`;
       if (product.color) html += `<span class="product-tag">🎨 ${product.color}</span>`;
       if (product.proveedor) html += `<span class="product-tag">🏭 ${product.proveedor}</span>`;
       if (product.estado_producto) html += `<span class="product-tag">📦 ${product.estado_producto}</span>`;
       html += `</div>`;
-      
+
       if (product.url_articulo) {
         html += `<div class="product-actions">`;
         html += `<a href="${product.url_articulo}" target="_blank" class="product-link">🔗 Ver producto</a>`;
         html += `</div>`;
       }
-      
+
       html += '</li>';
     });
-    
+
     html += '</ul></div>';
     return html;
   }
@@ -352,7 +352,8 @@ class GeekWayChat {
       text: '<div class="typing-indicator"><span></span><span></span><span></span></div>',
       sender: 'bot',
       timestamp: new Date(),
-      isTyping: true
+      isTyping: true,
+      isHTML: true // Marcar como HTML para renderizado correcto
     };
 
     this.messages.push(typingMessage);

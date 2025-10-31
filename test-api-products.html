@@ -52,7 +52,7 @@
 <body>
     <div class="test-container">
         <h1>🧪 Test - Nuevo Formato de Respuesta API</h1>
-        
+
         <div class="test-info">
             <h3>📋 Información del Test</h3>
             <ul>
@@ -206,15 +206,15 @@
 
             // Procesar respuesta como lo haría el widget
             let botResponse = '';
-            
+
             if (mockResponse.data.message) {
                 botResponse = mockResponse.data.message;
-                
+
                 // Si hay productos, agregarlos al mensaje
                 if (mockResponse.data.products && mockResponse.data.products.length > 0) {
                     botResponse += widgetInstance.formatProductsHTML(mockResponse.data.products);
                 }
-                
+
                 widgetInstance.messages.push({
                     id: Date.now(),
                     text: botResponse,
