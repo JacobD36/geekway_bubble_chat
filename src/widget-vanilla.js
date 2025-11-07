@@ -7,7 +7,7 @@ class GeekWayChat {
     this.isOpen = false;
     this.messages = [];
     this.apiKey = null;
-    this.apiBaseUrl = 'http://localhost:3000/api/v1';
+    this.apiBaseUrl = 'https://gogeekwayapi-production.up.railway.app/api/v1';
     this.isLoading = false;
     this.sessionId = null; // Gestión de sesión en memoria
   }
@@ -34,7 +34,7 @@ class GeekWayChat {
 
     // Configurar API
     this.apiKey = config.apiKey;
-    this.apiBaseUrl = config.apiBaseUrl || 'http://localhost:3000/api/v1';
+    this.apiBaseUrl = config.apiBaseUrl || 'https://gogeekwayapi-production.up.railway.app/api/v1';
 
     // Validar API Key
     if (!this.apiKey) {
