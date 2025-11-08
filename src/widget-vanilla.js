@@ -400,7 +400,7 @@ class GeekWayChat {
         background: #8b5cf6;
         border: none;
         border-radius: 50%;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -412,6 +412,7 @@ class GeekWayChat {
       .chat-button:hover {
         background: #7c3aed;
         transform: scale(1.1);
+        box-shadow: 0 12px 32px rgba(139, 92, 246, 0.5), 0 6px 16px rgba(0, 0, 0, 0.4);
       }
 
       .chat-button svg {
