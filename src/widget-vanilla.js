@@ -266,7 +266,12 @@ class GeekWayChat {
 
   // Función para formatear productos/items dinámicamente (genérico)
   formatProductsHTML(products) {
-    if (!products || products.length === 0) return '';
+    console.log('🔍 formatProductsHTML recibió:', products);
+    
+    if (!products || products.length === 0) {
+      console.warn('⚠️ No hay productos para formatear');
+      return '';
+    }
 
     let html = '<div class="products-container">';
     html += '<div class="products-header">';
@@ -276,6 +281,8 @@ class GeekWayChat {
     html += '<div class="products-list">';
 
     products.forEach((item, index) => {
+      console.log(`📦 Procesando item ${index}:`, item);
+      
       html += '<div class="product-card">';
 
       // Clasificar campos según su tipo
@@ -287,26 +294,41 @@ class GeekWayChat {
         const value = item[key];
         const lowerKey = key.toLowerCase();
 
-        if (value === null || value === undefined || value === '') return;
+        console.log(`  🔑 Campo: ${key} = ${value} (tipo: ${typeof value})`);
+
+        if (value === null || value === undefined || value === '') {
+          console.log(`  ⏭️ Campo ${key} vacío, saltando`);
+          return;
+        }
 
         // Detectar URLs (campos que empiezan con 'url')
         if (lowerKey.startsWith('url')) {
+          console.log(`  🔗 URL detectada: ${key}`);
           urlFields.push({ key, value });
         }
         // Detectar imágenes (campos que empiezan con 'img')
         else if (lowerKey.startsWith('img')) {
+          console.log(`  🖼️ Imagen detectada: ${key}`);
           imgFields.push({ key, value });
         }
         // Campos regulares
         else {
+          console.log(`  📝 Campo regular: ${key}`);
           regularFields.push({ key, value });
         }
+      });
+
+      console.log(`  ✅ Clasificación:`, {
+        urls: urlFields.length,
+        imgs: imgFields.length,
+        regular: regularFields.length
       });
 
       // Renderizar imágenes primero (si existen)
       if (imgFields.length > 0) {
         html += '<div class="item-image-container">';
         imgFields.forEach(field => {
+          console.log(`  🎨 Renderizando imagen: ${field.value}`);
           html += `<img src="${this.escapeHtml(field.value)}" alt="Imagen" class="item-image" onerror="this.style.display='none'" />`;
         });
         html += '</div>';
@@ -320,11 +342,11 @@ class GeekWayChat {
           const fieldValue = this.escapeHtml(String(field.value));
 
           if (isFirstField) {
-            // Primer campo como título principal
+            console.log(`  📌 Título: ${fieldValue}`);
             html += `<div class="item-title">${fieldValue}</div>`;
           } else {
-            // Resto de campos como información
             const fieldLabel = this.formatFieldName(field.key);
+            console.log(`  📋 Info: ${fieldLabel}: ${fieldValue}`);
             html += `<div class="item-field">`;
             html += `<span class="item-label">${fieldLabel}:</span> `;
             html += `<span class="item-value">${fieldValue}</span>`;
@@ -339,6 +361,7 @@ class GeekWayChat {
         html += '<div class="item-actions">';
         urlFields.forEach(field => {
           const buttonLabel = this.formatFieldName(field.key) || 'Ver más';
+          console.log(`  🔘 Botón: ${buttonLabel} -> ${field.value}`);
           html += `<a href="${this.escapeHtml(field.value)}" target="_blank" rel="noopener noreferrer" class="item-link">`;
           html += `<svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">`;
           html += `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>`;
@@ -354,6 +377,8 @@ class GeekWayChat {
 
     html += '</div>'; // Cierre products-list
     html += '</div>'; // Cierre products-container
+    
+    console.log('✅ HTML generado (primeros 200 chars):', html.substring(0, 200) + '...');
     return html;
   }
 
