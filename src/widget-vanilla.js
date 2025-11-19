@@ -268,23 +268,27 @@ class GeekWayChat {
   formatProductsHTML(products) {
     if (!products || products.length === 0) return '';
 
-    let html = '<div class="products-container"><h4>📋 Resultados:</h4><ul class="products-list">';
+    let html = '<div class="products-container">';
+    html += '<div class="products-header">';
+    html += '<span class="results-icon">📋</span>';
+    html += '<span class="results-title">Resultados</span>';
+    html += '</div>';
+    html += '<div class="products-list">';
 
-    products.forEach(item => {
-      html += '<li class="product-item">';
-      
-      // Arrays para organizar diferentes tipos de contenido
+    products.forEach((item, index) => {
+      html += '<div class="product-card">';
+
+      // Clasificar campos según su tipo
       const urlFields = [];
       const imgFields = [];
       const regularFields = [];
-      
-      // Clasificar campos según su tipo
+
       Object.keys(item).forEach(key => {
         const value = item[key];
         const lowerKey = key.toLowerCase();
-        
+
         if (value === null || value === undefined || value === '') return;
-        
+
         // Detectar URLs (campos que empiezan con 'url')
         if (lowerKey.startsWith('url')) {
           urlFields.push({ key, value });
@@ -298,59 +302,69 @@ class GeekWayChat {
           regularFields.push({ key, value });
         }
       });
-      
+
       // Renderizar imágenes primero (si existen)
       if (imgFields.length > 0) {
-        html += '<div class="product-images">';
+        html += '<div class="item-image-container">';
         imgFields.forEach(field => {
-          html += `<img src="${this.escapeHtml(field.value)}" alt="${this.formatFieldName(field.key)}" class="product-image" />`;
+          html += `<img src="${this.escapeHtml(field.value)}" alt="Imagen" class="item-image" onerror="this.style.display='none'" />`;
         });
         html += '</div>';
       }
-      
+
       // Renderizar campos regulares
       if (regularFields.length > 0) {
-        html += '<div class="product-fields">';
-        regularFields.forEach((field, index) => {
-          const isFirstField = index === 0;
-          const fieldClass = isFirstField ? 'product-field-primary' : 'product-field-secondary';
-          const fieldName = this.formatFieldName(field.key);
+        html += '<div class="item-content">';
+        regularFields.forEach((field, fieldIndex) => {
+          const isFirstField = fieldIndex === 0;
           const fieldValue = this.escapeHtml(String(field.value));
-          
+
           if (isFirstField) {
-            html += `<div class="${fieldClass}"><strong>${fieldValue}</strong></div>`;
+            // Primer campo como título principal
+            html += `<div class="item-title">${fieldValue}</div>`;
           } else {
-            html += `<div class="${fieldClass}"><span class="field-label">${fieldName}:</span> <span class="field-value">${fieldValue}</span></div>`;
+            // Resto de campos como información
+            const fieldLabel = this.formatFieldName(field.key);
+            html += `<div class="item-field">`;
+            html += `<span class="item-label">${fieldLabel}:</span> `;
+            html += `<span class="item-value">${fieldValue}</span>`;
+            html += `</div>`;
           }
         });
         html += '</div>';
       }
-      
-      // Renderizar URLs como botones al final
+
+      // Renderizar URLs como botones discretos al final
       if (urlFields.length > 0) {
-        html += '<div class="product-actions">';
+        html += '<div class="item-actions">';
         urlFields.forEach(field => {
-          const buttonText = this.formatFieldName(field.key);
-          html += `<a href="${this.escapeHtml(field.value)}" target="_blank" rel="noopener noreferrer" class="product-link">🔗 ${buttonText}</a>`;
+          const buttonLabel = this.formatFieldName(field.key) || 'Ver más';
+          html += `<a href="${this.escapeHtml(field.value)}" target="_blank" rel="noopener noreferrer" class="item-link">`;
+          html += `<svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">`;
+          html += `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>`;
+          html += `</svg>`;
+          html += `<span>${buttonLabel}</span>`;
+          html += `</a>`;
         });
         html += '</div>';
       }
-      
-      html += '</li>';
+
+      html += '</div>'; // Cierre product-card
     });
 
-    html += '</ul></div>';
+    html += '</div>'; // Cierre products-list
+    html += '</div>'; // Cierre products-container
     return html;
   }
-  
+
   // Función auxiliar para formatear nombres de campos (snake_case o camelCase a texto legible)
   formatFieldName(fieldName) {
     // Remover prefijos comunes
     let name = fieldName.replace(/^(url_|img_)/i, '');
-    
+
     // Convertir snake_case y camelCase a espacios
     name = name.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
-    
+
     // Capitalizar primera letra de cada palabra
     return name.split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
@@ -761,127 +775,139 @@ class GeekWayChat {
         display: none !important;
       }
 
-      /* Estilos para contenido dinámico (productos, citas, etc.) */
+      /* Estilos para contenido dinámico - Sistema adaptable */
       .products-container {
         margin-top: 12px;
-        padding: 12px;
-        background: #f8fafc;
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
 
-      .products-container h4 {
-        margin: 0 0 12px 0;
-        color: #1e293b;
-        font-size: 14px;
+      .products-header {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .results-icon {
+        font-size: 16px;
+      }
+
+      .results-title {
+        color: white;
+        font-size: 13px;
         font-weight: 600;
+        letter-spacing: 0.3px;
       }
 
       .products-list {
-        list-style: none;
-        margin: 0;
         padding: 0;
+        margin: 0;
       }
 
-      .product-item {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 12px;
-        margin-bottom: 8px;
-        transition: all 0.2s ease;
+      /* Tarjeta individual de item */
+      .product-card {
+        padding: 14px;
+        border-bottom: 1px solid #f1f5f9;
+        transition: background-color 0.2s ease;
       }
 
-      .product-item:last-child {
-        margin-bottom: 0;
+      .product-card:last-child {
+        border-bottom: none;
       }
 
-      .product-item:hover {
-        border-color: #8b5cf6;
-        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
+      .product-card:hover {
+        background-color: #f8fafc;
       }
 
-      /* Imágenes dinámicas */
-      .product-images {
-        display: flex;
-        gap: 8px;
+      /* Contenedor de imagen */
+      .item-image-container {
         margin-bottom: 12px;
-        flex-wrap: wrap;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f8fafc;
+        display: flex;
         justify-content: center;
+        align-items: center;
+        max-height: 180px;
       }
 
-      .product-image {
-        max-width: 100%;
-        max-height: 200px;
+      .item-image {
+        width: 100%;
+        height: auto;
+        max-height: 180px;
         object-fit: cover;
-        border-radius: 6px;
-        border: 1px solid #e2e8f0;
-        transition: transform 0.2s ease;
+        display: block;
       }
 
-      .product-image:hover {
-        transform: scale(1.02);
+      /* Contenido del item */
+      .item-content {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
 
-      /* Campos dinámicos */
-      .product-fields {
-        margin-bottom: 8px;
-      }
-
-      .product-field-primary {
-        color: #1e293b;
+      /* Título principal (primer campo) */
+      .item-title {
         font-size: 15px;
         font-weight: 600;
-        margin-bottom: 8px;
-        line-height: 1.4;
-      }
-
-      .product-field-secondary {
-        color: #64748b;
-        font-size: 13px;
+        color: #1e293b;
         margin-bottom: 4px;
         line-height: 1.4;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
       }
 
-      .field-label {
+      /* Campo de información */
+      .item-field {
+        font-size: 13px;
+        line-height: 1.5;
         color: #475569;
-        font-weight: 500;
       }
 
-      .field-value {
+      .item-label {
+        font-weight: 500;
+        color: #64748b;
+      }
+
+      .item-value {
         color: #1e293b;
       }
 
-      /* Acciones y botones */
-      .product-actions {
+      /* Acciones (botones de URL) */
+      .item-actions {
+        margin-top: 10px;
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 12px;
+        gap: 8px;
       }
 
-      .product-link {
+      .item-link {
         display: inline-flex;
         align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: transparent;
         color: #8b5cf6;
         text-decoration: none;
+        border: 1px solid #e9d5ff;
+        border-radius: 6px;
         font-size: 12px;
         font-weight: 500;
-        padding: 6px 12px;
-        border: 1px solid #8b5cf6;
-        border-radius: 6px;
         transition: all 0.2s ease;
-        background: transparent;
       }
 
-      .product-link:hover {
-        background: #8b5cf6;
-        color: white;
+      .item-link:hover {
+        background: #f3e8ff;
+        border-color: #c4b5fd;
         transform: translateY(-1px);
-        box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
+      }
+
+      .link-icon {
+        width: 14px;
+        height: 14px;
+        stroke-width: 2;
       }
 
       @media (max-width: 640px) {
