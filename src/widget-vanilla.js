@@ -267,7 +267,7 @@ class GeekWayChat {
   // Función para formatear productos/items dinámicamente (genérico)
   formatProductsHTML(products) {
     console.log('🔍 formatProductsHTML recibió:', products);
-    
+
     if (!products || products.length === 0) {
       console.warn('⚠️ No hay productos para formatear');
       return '';
@@ -282,7 +282,7 @@ class GeekWayChat {
 
     products.forEach((item, index) => {
       console.log(`📦 Procesando item ${index}:`, item);
-      
+
       html += '<div class="product-card">';
 
       // Clasificar campos según su tipo
@@ -377,7 +377,7 @@ class GeekWayChat {
 
     html += '</div>'; // Cierre products-list
     html += '</div>'; // Cierre products-container
-    
+
     console.log('✅ HTML generado (primeros 200 chars):', html.substring(0, 200) + '...');
     return html;
   }
