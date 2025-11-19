@@ -264,41 +264,98 @@ class GeekWayChat {
     });
   }
 
-  // Función para formatear productos en HTML estético
+  // Función para formatear productos/items dinámicamente (genérico)
   formatProductsHTML(products) {
     if (!products || products.length === 0) return '';
 
-    let html = '<div class="products-container"><h4>🛍️ Productos encontrados:</h4><ul class="products-list">';
+    let html = '<div class="products-container"><h4>📋 Resultados:</h4><ul class="products-list">';
 
-    products.forEach(product => {
+    products.forEach(item => {
       html += '<li class="product-item">';
-      html += `<div class="product-header">`;
-      html += `<strong class="product-name">${product.nombre_producto || 'Sin nombre'}</strong>`;
-      html += `<span class="product-price">${product.precio || 'Precio no disponible'}</span>`;
-      html += `</div>`;
-
-      if (product.descripcion) {
-        html += `<p class="product-description">${product.descripcion}</p>`;
+      
+      // Arrays para organizar diferentes tipos de contenido
+      const urlFields = [];
+      const imgFields = [];
+      const regularFields = [];
+      
+      // Clasificar campos según su tipo
+      Object.keys(item).forEach(key => {
+        const value = item[key];
+        const lowerKey = key.toLowerCase();
+        
+        if (value === null || value === undefined || value === '') return;
+        
+        // Detectar URLs (campos que empiezan con 'url')
+        if (lowerKey.startsWith('url')) {
+          urlFields.push({ key, value });
+        }
+        // Detectar imágenes (campos que empiezan con 'img')
+        else if (lowerKey.startsWith('img')) {
+          imgFields.push({ key, value });
+        }
+        // Campos regulares
+        else {
+          regularFields.push({ key, value });
+        }
+      });
+      
+      // Renderizar imágenes primero (si existen)
+      if (imgFields.length > 0) {
+        html += '<div class="product-images">';
+        imgFields.forEach(field => {
+          html += `<img src="${this.escapeHtml(field.value)}" alt="${this.formatFieldName(field.key)}" class="product-image" />`;
+        });
+        html += '</div>';
       }
-
-      html += `<div class="product-details">`;
-      if (product.categoria) html += `<span class="product-tag">📂 ${product.categoria}</span>`;
-      if (product.color) html += `<span class="product-tag">🎨 ${product.color}</span>`;
-      if (product.proveedor) html += `<span class="product-tag">🏭 ${product.proveedor}</span>`;
-      if (product.estado_producto) html += `<span class="product-tag">📦 ${product.estado_producto}</span>`;
-      html += `</div>`;
-
-      if (product.url_articulo) {
-        html += `<div class="product-actions">`;
-        html += `<a href="${product.url_articulo}" target="_blank" class="product-link">🔗 Ver producto</a>`;
-        html += `</div>`;
+      
+      // Renderizar campos regulares
+      if (regularFields.length > 0) {
+        html += '<div class="product-fields">';
+        regularFields.forEach((field, index) => {
+          const isFirstField = index === 0;
+          const fieldClass = isFirstField ? 'product-field-primary' : 'product-field-secondary';
+          const fieldName = this.formatFieldName(field.key);
+          const fieldValue = this.escapeHtml(String(field.value));
+          
+          if (isFirstField) {
+            html += `<div class="${fieldClass}"><strong>${fieldValue}</strong></div>`;
+          } else {
+            html += `<div class="${fieldClass}"><span class="field-label">${fieldName}:</span> <span class="field-value">${fieldValue}</span></div>`;
+          }
+        });
+        html += '</div>';
       }
-
+      
+      // Renderizar URLs como botones al final
+      if (urlFields.length > 0) {
+        html += '<div class="product-actions">';
+        urlFields.forEach(field => {
+          const buttonText = this.formatFieldName(field.key);
+          html += `<a href="${this.escapeHtml(field.value)}" target="_blank" rel="noopener noreferrer" class="product-link">🔗 ${buttonText}</a>`;
+        });
+        html += '</div>';
+      }
+      
       html += '</li>';
     });
 
     html += '</ul></div>';
     return html;
+  }
+  
+  // Función auxiliar para formatear nombres de campos (snake_case o camelCase a texto legible)
+  formatFieldName(fieldName) {
+    // Remover prefijos comunes
+    let name = fieldName.replace(/^(url_|img_)/i, '');
+    
+    // Convertir snake_case y camelCase a espacios
+    name = name.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
+    
+    // Capitalizar primera letra de cada palabra
+    return name.split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ')
+      .trim();
   }
 
   // Función para llamar a la API de chat
@@ -704,7 +761,7 @@ class GeekWayChat {
         display: none !important;
       }
 
-      /* Estilos para productos */
+      /* Estilos para contenido dinámico (productos, citas, etc.) */
       .products-container {
         margin-top: 12px;
         padding: 12px;
@@ -744,53 +801,66 @@ class GeekWayChat {
         box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
       }
 
-      .product-header {
+      /* Imágenes dinámicas */
+      .product-images {
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .product-image {
+        max-width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        transition: transform 0.2s ease;
+      }
+
+      .product-image:hover {
+        transform: scale(1.02);
+      }
+
+      /* Campos dinámicos */
+      .product-fields {
         margin-bottom: 8px;
       }
 
-      .product-name {
+      .product-field-primary {
         color: #1e293b;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
-        flex: 1;
-        margin-right: 8px;
-      }
-
-      .product-price {
-        color: #059669;
-        font-weight: 600;
-        font-size: 14px;
-        white-space: nowrap;
-      }
-
-      .product-description {
-        color: #64748b;
-        font-size: 12px;
         margin-bottom: 8px;
         line-height: 1.4;
       }
 
-      .product-details {
+      .product-field-secondary {
+        color: #64748b;
+        font-size: 13px;
+        margin-bottom: 4px;
+        line-height: 1.4;
         display: flex;
         flex-wrap: wrap;
         gap: 4px;
-        margin-bottom: 8px;
       }
 
-      .product-tag {
-        background: #f1f5f9;
+      .field-label {
         color: #475569;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 11px;
-        border: 1px solid #e2e8f0;
+        font-weight: 500;
       }
 
+      .field-value {
+        color: #1e293b;
+      }
+
+      /* Acciones y botones */
       .product-actions {
-        text-align: right;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
       }
 
       .product-link {
@@ -800,15 +870,18 @@ class GeekWayChat {
         text-decoration: none;
         font-size: 12px;
         font-weight: 500;
-        padding: 4px 8px;
+        padding: 6px 12px;
         border: 1px solid #8b5cf6;
-        border-radius: 4px;
+        border-radius: 6px;
         transition: all 0.2s ease;
+        background: transparent;
       }
 
       .product-link:hover {
         background: #8b5cf6;
         color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
       }
 
       @media (max-width: 640px) {
