@@ -151,7 +151,7 @@
         }
     </style>
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v3.0.4/dist/widget/geekway-chat-widget.css">-->
-    <link rel="stylesheet" href=".https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@latest/dist/widget/geekway-chat-widget.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@latest/dist/widget/geekway-chat-widget.min.css">
 </head>
 <body>
     <div class="container">
@@ -236,7 +236,7 @@
     </div>
 
     <!-- 🎯 INTEGRACIÓN DEL WIDGET GEEKWAY - v3.0.9 (VERSIÓN LOCAL CON DEBUG) -->
-    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@v3.0.9/src/widget-vanilla.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@latest/dist/widget/geekway-chat-widget.min.js"></script>
     <!--<script src="../src/widget-vanilla.js?v=3.0.9"></script>-->
 
     <!-- 🎯 INICIALIZACIÓN DEL WIDGET -->
@@ -246,8 +246,9 @@
             // Inicializar el widget GeekWay Chat
             try {
                 GeekWayChat.init({
-                    apiKey: '1384882e154854fb177620e43a6489ee46501ad4c500ac2abfaa367c762bb350',
-                    apiBaseUrl: 'https://gogeekwayapi-production.up.railway.app/api/v1', // URL de la API
+                    apiKey: '7e9f68730398b6eac8076d2aca0f655ee39f1b6a7dc50218c69b869b27372d7d',
+                    //apiBaseUrl: 'https://gogeekwayapi-production.up.railway.app/api/v1', // URL de la API
+                    apiBaseUrl: 'http://localhost:3000/api/v1', // URL de la API
                     theme: 'purple',
                     position: 'bottom-right',
                     welcomeMessage: '¡Hola! Soy la persona que te ayudará a reservar la cita con el médico de tu preferencia. ¿En qué puedo asistirte hoy?'
