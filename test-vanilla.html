@@ -13,66 +13,12 @@
     </style>
 </head>
 <body>
-    <h1>🚀 Test Vanilla - GeekWay Chat Widget</h1>
-    <div id="results"></div>
-
-    <script>
-        const results = document.getElementById('results');
-
-        function addResult(message, type = 'info') {
-            const div = document.createElement('div');
-            div.className = `status ${type}`;
-            div.innerHTML = message;
-            results.appendChild(div);
-        }
-
-        addResult('✅ Página cargada correctamente', 'success');
-        addResult(`🌐 Navegador: ${navigator.userAgent}`, 'info');
-        addResult(`📍 Ubicación: ${window.location.href}`, 'info');
-        addResult('⏳ Cargando widget Vanilla JS...', 'info');
-    </script>
-
-    <!-- JavaScript del widget VANILLA (sin Angular) -->
-    <script src="dist/widget/geekway-chat-widget.min.js"></script>
-
-    <script>
-        // Test inmediato después de cargar vanilla
-        addResult('📡 Script Vanilla cargado, verificando GeekWayChat...', 'info');
-
-        if (typeof window.GeekWayChat !== 'undefined') {
-            addResult('✅ SUCCESS: GeekWayChat disponible (Vanilla JS)!', 'success');
-            addResult(`🔧 Tipo: ${typeof window.GeekWayChat}`, 'info');
-            addResult(`📝 Constructor: ${window.GeekWayChat.constructor.name}`, 'info');
-
-            // Mostrar métodos disponibles
-            const methods = Object.getOwnPropertyNames(window.GeekWayChat)
-                .filter(prop => typeof window.GeekWayChat[prop] === 'function');
-            addResult(`⚙️ Métodos: [${methods.join(', ')}]`, 'info');
-
-            // Test de inicialización
-            if (typeof window.GeekWayChat.init === 'function') {
-                addResult('✅ Método init() disponible', 'success');
-
-                try {
-                    const result = window.GeekWayChat.init({
-                        apiKey: 'test-vanilla-final',
-                        theme: 'purple',
-                        position: 'bottom-right',
-                        welcomeMessage: '¡Test Vanilla exitoso! 🎉 Sin errores de Angular.'
-                    });
-                    addResult('✅ Widget inicializado correctamente (Vanilla)', 'success');
-                    addResult(`📊 Resultado: ${typeof result}`, 'info');
-                    addResult('🎯 ¡Deberías ver el botón circular morado en la esquina!', 'success');
-                } catch(e) {
-                    addResult(`❌ Error al inicializar: ${e.message}`, 'error');
-                    addResult(`📊 Stack trace: ${e.stack}`, 'error');
-                }
-            } else {
-                addResult('❌ Método init() NO disponible', 'error');
-            }
-        } else {
-            addResult('❌ FALLO: GeekWayChat NO está disponible', 'error');
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/gh/JacobD36/geekway_bubble_chat@main/src/widget.js"
+        data-tenant-id="demo-tenant-123"
+        data-api-url="https://gogeekwayapi-production.up.railway.app/widget/chat"
+        data-color="#6C63FF"
+        data-position="bottom-right"
+        data-welcome="Hola! En que puedo ayudarte hoy?">
+</script>
 </body>
 </html>

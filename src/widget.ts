@@ -4,7 +4,10 @@ import { ChatBubbleComponent } from './app/chat-bubble.component';
 import { appConfig } from './app/app.config';
 
 interface ChatConfig {
-  apiKey: string;
+  apiKey?: string;
+  apiBaseUrl?: string;
+  agentId?: string;
+  userId?: string;
   theme?: 'purple' | 'blue';
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
   welcomeMessage?: string;
@@ -50,7 +53,21 @@ class GeekWayChat {
   private doCreateWidget(config: ChatConfig): void {
     this.widget = document.createElement('geekway-chat-widget');
 
-    this.widget.setAttribute('api-key', config.apiKey);
+    if (config.apiKey) {
+      this.widget.setAttribute('api-key', config.apiKey);
+    }
+
+    if (config.apiBaseUrl) {
+      this.widget.setAttribute('api-base-url', config.apiBaseUrl);
+    }
+
+    if (config.agentId) {
+      this.widget.setAttribute('agent-id', config.agentId);
+    }
+
+    if (config.userId) {
+      this.widget.setAttribute('user-id', config.userId);
+    }
 
     if (config.theme) {
       this.widget.setAttribute('theme', config.theme);
